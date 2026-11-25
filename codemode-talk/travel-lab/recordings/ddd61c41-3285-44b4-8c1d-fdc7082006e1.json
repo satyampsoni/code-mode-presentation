@@ -1,0 +1,1990 @@
+{
+  "version": 1,
+  "id": "ddd61c41-3285-44b4-8c1d-fdc7082006e1",
+  "recordedAt": "2026-11-25T19:06:24.939Z",
+  "prompt": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage.",
+  "catalogSize": 10,
+  "model": "openai/gpt-oss-120b",
+  "traces": [
+    {
+      "version": 1,
+      "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+      "mode": "code",
+      "prompt": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage.",
+      "catalogSize": 10,
+      "model": "openai/gpt-oss-120b",
+      "dataset": "travel-fixtures-2026-11-v1",
+      "recordedAt": "2026-11-25T19:05:52.891Z",
+      "status": "complete",
+      "events": [
+        {
+          "id": "d21302a8-3f99-44ce-9716-4a6a85d4adf9",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "run.start",
+          "name": "Starting live MCP session",
+          "timestamp": "2026-11-25T19:05:52.891Z",
+          "payload": {
+            "mode": "code",
+            "catalogSize": 10,
+            "prompt": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage.",
+            "dataset": "travel-fixtures-2026-11-v1",
+            "model": "openai/gpt-oss-120b"
+          },
+          "metrics": {
+            "exposedTools": 0,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 0,
+            "initialDefinitionBytes": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "cachedInputTokens": 0,
+            "modelRequests": 0,
+            "toolCalls": 0,
+            "intermediateBytes": 0,
+            "latencyMs": 0,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "d3140a62-e659-418b-822b-ad0efb53dc4d",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "discovery.request",
+          "name": "tools/list",
+          "timestamp": "2026-11-25T19:05:53.288Z",
+          "payload": {
+            "jsonrpc": "2.0",
+            "method": "tools/list",
+            "params": {}
+          },
+          "metrics": {
+            "exposedTools": 0,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 0,
+            "initialDefinitionBytes": 0,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "cachedInputTokens": 0,
+            "modelRequests": 0,
+            "toolCalls": 0,
+            "intermediateBytes": 0,
+            "latencyMs": 397,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "d59cb133-b3c5-4bfd-a972-246e7997860d",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "discovery.result",
+          "name": "3 tools exposed",
+          "timestamp": "2026-11-25T19:05:53.302Z",
+          "payload": {
+            "tools": [
+              {
+                "name": "search",
+                "description": "Searches available tools using natural language query or keywords. CRITICAL: Only a minimal tool set is visible initially. When the user asks for any capability not in your current tools, you MUST call search first to discover tools, then get_schema, then execute. Never decline without searching. If the user asks what you can do or wants to see the tools, call search with no query to get a brief index of available tools. Returns tool names and brief summaries.",
+                "inputSchema": {
+                  "type": "object",
+                  "properties": {
+                    "query": {
+                      "type": "string",
+                      "description": "Keywords or a natural language description of the task. Omit to browse a brief index of available tools."
+                    },
+                    "limit": {
+                      "type": "number",
+                      "description": "Maximum number of tools to return (default: 5, or 20 when browsing)"
+                    }
+                  },
+                  "additionalProperties": true
+                },
+                "_meta": {}
+              },
+              {
+                "name": "get_schema",
+                "description": "Returns parameter schemas, types, and required fields for specified tools, plus ES2020 scripting constraints. Call this before writing code in execute.",
+                "inputSchema": {
+                  "type": "object",
+                  "properties": {
+                    "tools": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Array of tool names to inspect"
+                    }
+                  },
+                  "required": [
+                    "tools"
+                  ],
+                  "additionalProperties": true
+                },
+                "_meta": {}
+              },
+              {
+                "name": "execute",
+                "description": "Execute an ES2020 JavaScript async function BODY in QuickJS. The code string runs directly inside an async function. Use top-level await callTool(name, argsObject) and return the final JSON value. Do NOT submit a bare async arrow function or uninvoked function declaration; those do not execute. Do not use Markdown fences, TypeScript types or imports. Contract example: const result = await callTool(\"tool_name\", {}); return result;",
+                "inputSchema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "JavaScript (ES2020) script to execute. Use await callTool(name, args)."
+                    }
+                  },
+                  "required": [
+                    "code"
+                  ],
+                  "additionalProperties": true
+                },
+                "_meta": {}
+              }
+            ],
+            "definitionTokensEstimated": 496,
+            "definitionBytes": 1984
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "cachedInputTokens": 0,
+            "modelRequests": 0,
+            "toolCalls": 0,
+            "intermediateBytes": 0,
+            "latencyMs": 411,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "130c4255-a6b8-46b2-be56-9c678f222e42",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.request",
+          "name": "Model request 1",
+          "timestamp": "2026-11-25T19:05:53.302Z",
+          "payload": {
+            "model": "openai/gpt-oss-120b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You are a travel research agent using deterministic sample travel data, never real availability. Follow the user request faithfully, only use available capabilities, check availability and baggage as needed. All prices are per adult INR. Unless the user explicitly requests sold-out options, only recommend available flights (seats > 0). Apply every eligibility constraint before selecting the requested cheapest options. Do not invent tool results. When complete, return JSON as assistant message content, with no tool calls. JSON is a text format, never a tool or function name. Return your final answer as JSON with an options array (each item includes id, airline, price, checkedKg), plus a brief explanation and sampleData:true. For other user questions use an appropriate JSON answer. You may batch independent calls in parallel. If no flights match say so. Bengaluru is BLR and Sydney is SYD. Discover tools with search, inspect exact schemas with get_schema, then write ES2020 JavaScript for execute. The code string is the BODY of an async function, executed immediately: use top-level await callTool(name,argsObject) and return a JSON value. Never submit a bare async () => {...} or uninvoked function: that returns null without calling tools. No Markdown fences. Tool-agnostic contract example: const result = await callTool(\"tool_name\", {}); return result; callTool returns the tool handler result directly (not an MCP content envelope). Use Promise.all for independent requests if useful. Do not invoke meta-tools through callTool. No Node globals, import, fetch, require or process. Keep intermediate data in the sandbox. Return only necessary final options."
+              },
+              {
+                "role": "user",
+                "content": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage."
+              }
+            ],
+            "toolChoice": "auto",
+            "toolNames": [
+              "search",
+              "get_schema",
+              "execute"
+            ],
+            "toolDefinitionCount": 3,
+            "toolDefinitionsReference": "discovery.result",
+            "turn": 1,
+            "attempt": 1
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "cachedInputTokens": 0,
+            "modelRequests": 1,
+            "toolCalls": 0,
+            "intermediateBytes": 0,
+            "latencyMs": 411,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "adb7949a-44c7-4202-9796-5aab90ea6031",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.response",
+          "name": "Model response 1",
+          "timestamp": "2026-11-25T19:05:54.262Z",
+          "durationMs": 959.4479580000043,
+          "payload": {
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "tool_calls": [
+                {
+                  "id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                  "type": "function",
+                  "function": {
+                    "name": "search",
+                    "arguments": "{\"limit\":10}"
+                  }
+                }
+              ]
+            },
+            "servedModel": "openai/gpt-oss-120b",
+            "usage": {
+              "queue_time": 0.511566628,
+              "prompt_tokens": 807,
+              "prompt_time": 0.06042423,
+              "completion_tokens": 81,
+              "completion_time": 0.168839087,
+              "total_tokens": 888,
+              "total_time": 0.229263317,
+              "completion_tokens_details": {
+                "reasoning_tokens": 55
+              }
+            },
+            "finishReason": "tool_calls"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 807,
+            "outputTokens": 81,
+            "cachedInputTokens": 0,
+            "modelRequests": 1,
+            "toolCalls": 0,
+            "intermediateBytes": 0,
+            "latencyMs": 1371,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "5c7ffb6d-6e9b-4838-901e-587a0ec576ce",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "mcp.request",
+          "name": "search",
+          "timestamp": "2026-11-25T19:05:54.262Z",
+          "payload": {
+            "jsonrpc": "2.0",
+            "method": "tools/call",
+            "params": {
+              "name": "search",
+              "arguments": {
+                "limit": 10
+              }
+            },
+            "modelToolCallId": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 807,
+            "outputTokens": 81,
+            "cachedInputTokens": 0,
+            "modelRequests": 1,
+            "toolCalls": 0,
+            "intermediateBytes": 0,
+            "latencyMs": 1371,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "9ca04fa0-33ff-46d6-80ba-8ca81d038e29",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "mcp.response",
+          "name": "search",
+          "timestamp": "2026-11-25T19:05:54.268Z",
+          "durationMs": 5.344208000024082,
+          "payload": {
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "- **search_flights**: Search sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\n- **get_flight_details**: Read complete details for one sample flight including its itinerary and baggage allowance.\n- **compare_fares**: Compare and sort the total INR prices of specified sample flight IDs.\n- **get_baggage_policy**: Look up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\n- **check_availability**: Read available sample seats and availability for one flight ID.\n- **get_airline_details**: Read the sample airline directory by carrier IATA code, e.g. AI, MH, TG or SQ.\n- **get_airport_details**: Read the sample airport directory by IATA or city name.\n- **get_cancellation_policy**: Read sample cancellation rules and fees for a flight ID.\n- **get_refund_policy**: Read sample refund eligibility, fees and processing days for a flight ID.\n- **get_layover_details**: Read sample stopover airports and connection durations for a flight ID."
+                }
+              ]
+            },
+            "modelToolCallId": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+            "bytesToModel": 1454
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 807,
+            "outputTokens": 81,
+            "cachedInputTokens": 0,
+            "modelRequests": 1,
+            "toolCalls": 0,
+            "intermediateBytes": 1454,
+            "latencyMs": 1376,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "7ea709f7-169e-4253-acc9-e4728a241876",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.request",
+          "name": "Model request 2",
+          "timestamp": "2026-11-25T19:05:54.268Z",
+          "payload": {
+            "model": "openai/gpt-oss-120b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You are a travel research agent using deterministic sample travel data, never real availability. Follow the user request faithfully, only use available capabilities, check availability and baggage as needed. All prices are per adult INR. Unless the user explicitly requests sold-out options, only recommend available flights (seats > 0). Apply every eligibility constraint before selecting the requested cheapest options. Do not invent tool results. When complete, return JSON as assistant message content, with no tool calls. JSON is a text format, never a tool or function name. Return your final answer as JSON with an options array (each item includes id, airline, price, checkedKg), plus a brief explanation and sampleData:true. For other user questions use an appropriate JSON answer. You may batch independent calls in parallel. If no flights match say so. Bengaluru is BLR and Sydney is SYD. Discover tools with search, inspect exact schemas with get_schema, then write ES2020 JavaScript for execute. The code string is the BODY of an async function, executed immediately: use top-level await callTool(name,argsObject) and return a JSON value. Never submit a bare async () => {...} or uninvoked function: that returns null without calling tools. No Markdown fences. Tool-agnostic contract example: const result = await callTool(\"tool_name\", {}); return result; callTool returns the tool handler result directly (not an MCP content envelope). Use Promise.all for independent requests if useful. Do not invoke meta-tools through callTool. No Node globals, import, fetch, require or process. Keep intermediate data in the sandbox. Return only necessary final options."
+              },
+              {
+                "role": "user",
+                "content": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                    "type": "function",
+                    "function": {
+                      "name": "search",
+                      "arguments": "{\"limit\":10}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"- **search_flights**: Search sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n- **get_flight_details**: Read complete details for one sample flight including its itinerary and baggage allowance.\\n- **compare_fares**: Compare and sort the total INR prices of specified sample flight IDs.\\n- **get_baggage_policy**: Look up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n- **check_availability**: Read available sample seats and availability for one flight ID.\\n- **get_airline_details**: Read the sample airline directory by carrier IATA code, e.g. AI, MH, TG or SQ.\\n- **get_airport_details**: Read the sample airport directory by IATA or city name.\\n- **get_cancellation_policy**: Read sample cancellation rules and fees for a flight ID.\\n- **get_refund_policy**: Read sample refund eligibility, fees and processing days for a flight ID.\\n- **get_layover_details**: Read sample stopover airports and connection durations for a flight ID.\"}]}"
+              }
+            ],
+            "toolChoice": "auto",
+            "toolNames": [
+              "search",
+              "get_schema",
+              "execute"
+            ],
+            "toolDefinitionCount": 3,
+            "toolDefinitionsReference": "discovery.result",
+            "turn": 2,
+            "attempt": 1
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 807,
+            "outputTokens": 81,
+            "cachedInputTokens": 0,
+            "modelRequests": 2,
+            "toolCalls": 0,
+            "intermediateBytes": 1454,
+            "latencyMs": 1377,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "6bee058d-9654-4ad9-96cf-45d7a0809ff1",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.response",
+          "name": "Model response 2",
+          "timestamp": "2026-11-25T19:05:55.264Z",
+          "durationMs": 995.0784580000036,
+          "payload": {
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "tool_calls": [
+                {
+                  "id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                  "type": "function",
+                  "function": {
+                    "name": "get_schema",
+                    "arguments": "{\"tools\":[\"search_flights\",\"get_baggage_policy\"]}"
+                  }
+                }
+              ]
+            },
+            "servedModel": "openai/gpt-oss-120b",
+            "usage": {
+              "queue_time": 0.322755181,
+              "prompt_tokens": 1168,
+              "prompt_time": 0.077419934,
+              "completion_tokens": 248,
+              "completion_time": 0.526889796,
+              "total_tokens": 1416,
+              "total_time": 0.60430973,
+              "completion_tokens_details": {
+                "reasoning_tokens": 216
+              }
+            },
+            "finishReason": "tool_calls"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 1975,
+            "outputTokens": 329,
+            "cachedInputTokens": 0,
+            "modelRequests": 2,
+            "toolCalls": 0,
+            "intermediateBytes": 1454,
+            "latencyMs": 2373,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "5a0b93b8-ec8f-4ceb-b0de-465793a87d56",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "mcp.request",
+          "name": "get_schema",
+          "timestamp": "2026-11-25T19:05:55.264Z",
+          "payload": {
+            "jsonrpc": "2.0",
+            "method": "tools/call",
+            "params": {
+              "name": "get_schema",
+              "arguments": {
+                "tools": [
+                  "search_flights",
+                  "get_baggage_policy"
+                ]
+              }
+            },
+            "modelToolCallId": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 1975,
+            "outputTokens": 329,
+            "cachedInputTokens": 0,
+            "modelRequests": 2,
+            "toolCalls": 0,
+            "intermediateBytes": 1454,
+            "latencyMs": 2373,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "d3a6afba-bfd2-49f5-9087-d653d176eaba",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "mcp.response",
+          "name": "get_schema",
+          "timestamp": "2026-11-25T19:05:55.269Z",
+          "durationMs": 5.3116250000020955,
+          "payload": {
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "### search_flights\nSearch sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\n```json\n{\n  \"properties\": {\n    \"from\": {\n      \"type\": \"string\",\n      \"description\": \"Origin IATA or city, e.g. BLR or Bengaluru\"\n    },\n    \"to\": {\n      \"type\": \"string\",\n      \"description\": \"Destination IATA or city, e.g. SYD or Sydney\"\n    },\n    \"maxPrice\": {\n      \"type\": \"number\",\n      \"exclusiveMinimum\": 0,\n      \"description\": \"Exclusive upper price bound in INR\"\n    },\n    \"availableOnly\": {\n      \"type\": \"boolean\",\n      \"default\": true,\n      \"description\": \"Return only flights with seats by default; false includes sold-out fixtures\"\n    }\n  },\n  \"required\": [\n    \"from\",\n    \"to\"\n  ],\n  \"additionalProperties\": true,\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\"\n}\n```\n\n### get_baggage_policy\nLook up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\n```json\n{\n  \"properties\": {\n    \"flightId\": {\n      \"type\": \"string\",\n      \"description\": \"Sample flight ID returned by search_flights\"\n    }\n  },\n  \"required\": [\n    \"flightId\"\n  ],\n  \"additionalProperties\": true,\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\"\n}\n```"
+                }
+              ]
+            },
+            "modelToolCallId": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+            "bytesToModel": 1825
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 1975,
+            "outputTokens": 329,
+            "cachedInputTokens": 0,
+            "modelRequests": 2,
+            "toolCalls": 0,
+            "intermediateBytes": 3279,
+            "latencyMs": 2378,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "ffc5a775-54a9-4a1e-9102-7b34c3a781a4",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.request",
+          "name": "Model request 3",
+          "timestamp": "2026-11-25T19:05:55.269Z",
+          "payload": {
+            "model": "openai/gpt-oss-120b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You are a travel research agent using deterministic sample travel data, never real availability. Follow the user request faithfully, only use available capabilities, check availability and baggage as needed. All prices are per adult INR. Unless the user explicitly requests sold-out options, only recommend available flights (seats > 0). Apply every eligibility constraint before selecting the requested cheapest options. Do not invent tool results. When complete, return JSON as assistant message content, with no tool calls. JSON is a text format, never a tool or function name. Return your final answer as JSON with an options array (each item includes id, airline, price, checkedKg), plus a brief explanation and sampleData:true. For other user questions use an appropriate JSON answer. You may batch independent calls in parallel. If no flights match say so. Bengaluru is BLR and Sydney is SYD. Discover tools with search, inspect exact schemas with get_schema, then write ES2020 JavaScript for execute. The code string is the BODY of an async function, executed immediately: use top-level await callTool(name,argsObject) and return a JSON value. Never submit a bare async () => {...} or uninvoked function: that returns null without calling tools. No Markdown fences. Tool-agnostic contract example: const result = await callTool(\"tool_name\", {}); return result; callTool returns the tool handler result directly (not an MCP content envelope). Use Promise.all for independent requests if useful. Do not invoke meta-tools through callTool. No Node globals, import, fetch, require or process. Keep intermediate data in the sandbox. Return only necessary final options."
+              },
+              {
+                "role": "user",
+                "content": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                    "type": "function",
+                    "function": {
+                      "name": "search",
+                      "arguments": "{\"limit\":10}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"- **search_flights**: Search sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n- **get_flight_details**: Read complete details for one sample flight including its itinerary and baggage allowance.\\n- **compare_fares**: Compare and sort the total INR prices of specified sample flight IDs.\\n- **get_baggage_policy**: Look up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n- **check_availability**: Read available sample seats and availability for one flight ID.\\n- **get_airline_details**: Read the sample airline directory by carrier IATA code, e.g. AI, MH, TG or SQ.\\n- **get_airport_details**: Read the sample airport directory by IATA or city name.\\n- **get_cancellation_policy**: Read sample cancellation rules and fees for a flight ID.\\n- **get_refund_policy**: Read sample refund eligibility, fees and processing days for a flight ID.\\n- **get_layover_details**: Read sample stopover airports and connection durations for a flight ID.\"}]}"
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                    "type": "function",
+                    "function": {
+                      "name": "get_schema",
+                      "arguments": "{\"tools\":[\"search_flights\",\"get_baggage_policy\"]}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"### search_flights\\nSearch sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"from\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Origin IATA or city, e.g. BLR or Bengaluru\\\"\\n    },\\n    \\\"to\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Destination IATA or city, e.g. SYD or Sydney\\\"\\n    },\\n    \\\"maxPrice\\\": {\\n      \\\"type\\\": \\\"number\\\",\\n      \\\"exclusiveMinimum\\\": 0,\\n      \\\"description\\\": \\\"Exclusive upper price bound in INR\\\"\\n    },\\n    \\\"availableOnly\\\": {\\n      \\\"type\\\": \\\"boolean\\\",\\n      \\\"default\\\": true,\\n      \\\"description\\\": \\\"Return only flights with seats by default; false includes sold-out fixtures\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"from\\\",\\n    \\\"to\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\\n\\n### get_baggage_policy\\nLook up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"flightId\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Sample flight ID returned by search_flights\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"flightId\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\"}]}"
+              }
+            ],
+            "toolChoice": "auto",
+            "toolNames": [
+              "search",
+              "get_schema",
+              "execute"
+            ],
+            "toolDefinitionCount": 3,
+            "toolDefinitionsReference": "discovery.result",
+            "turn": 3,
+            "attempt": 1
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 1975,
+            "outputTokens": 329,
+            "cachedInputTokens": 0,
+            "modelRequests": 3,
+            "toolCalls": 0,
+            "intermediateBytes": 3279,
+            "latencyMs": 2378,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "43732fe4-a2de-48e2-96ff-98f158017c1a",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.rate_limit",
+          "name": "Rate limited · retrying in 9.5s",
+          "timestamp": "2026-11-25T19:05:55.334Z",
+          "durationMs": 64.54549999997835,
+          "payload": {
+            "httpStatus": 429,
+            "retry": 1,
+            "maxRetries": 5,
+            "waitMs": 9500,
+            "providerMessage": "Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jzckazx4extsexybr6czw7ms` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7244, Requested 1913. Please try again in 8.6775s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 1975,
+            "outputTokens": 329,
+            "cachedInputTokens": 0,
+            "modelRequests": 3,
+            "toolCalls": 0,
+            "intermediateBytes": 3279,
+            "latencyMs": 2443,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "45456c8b-ae5a-4e8e-bc8b-a8513654d623",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.request",
+          "name": "Model request 4",
+          "timestamp": "2026-11-25T19:06:04.834Z",
+          "payload": {
+            "model": "openai/gpt-oss-120b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You are a travel research agent using deterministic sample travel data, never real availability. Follow the user request faithfully, only use available capabilities, check availability and baggage as needed. All prices are per adult INR. Unless the user explicitly requests sold-out options, only recommend available flights (seats > 0). Apply every eligibility constraint before selecting the requested cheapest options. Do not invent tool results. When complete, return JSON as assistant message content, with no tool calls. JSON is a text format, never a tool or function name. Return your final answer as JSON with an options array (each item includes id, airline, price, checkedKg), plus a brief explanation and sampleData:true. For other user questions use an appropriate JSON answer. You may batch independent calls in parallel. If no flights match say so. Bengaluru is BLR and Sydney is SYD. Discover tools with search, inspect exact schemas with get_schema, then write ES2020 JavaScript for execute. The code string is the BODY of an async function, executed immediately: use top-level await callTool(name,argsObject) and return a JSON value. Never submit a bare async () => {...} or uninvoked function: that returns null without calling tools. No Markdown fences. Tool-agnostic contract example: const result = await callTool(\"tool_name\", {}); return result; callTool returns the tool handler result directly (not an MCP content envelope). Use Promise.all for independent requests if useful. Do not invoke meta-tools through callTool. No Node globals, import, fetch, require or process. Keep intermediate data in the sandbox. Return only necessary final options."
+              },
+              {
+                "role": "user",
+                "content": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                    "type": "function",
+                    "function": {
+                      "name": "search",
+                      "arguments": "{\"limit\":10}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"- **search_flights**: Search sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n- **get_flight_details**: Read complete details for one sample flight including its itinerary and baggage allowance.\\n- **compare_fares**: Compare and sort the total INR prices of specified sample flight IDs.\\n- **get_baggage_policy**: Look up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n- **check_availability**: Read available sample seats and availability for one flight ID.\\n- **get_airline_details**: Read the sample airline directory by carrier IATA code, e.g. AI, MH, TG or SQ.\\n- **get_airport_details**: Read the sample airport directory by IATA or city name.\\n- **get_cancellation_policy**: Read sample cancellation rules and fees for a flight ID.\\n- **get_refund_policy**: Read sample refund eligibility, fees and processing days for a flight ID.\\n- **get_layover_details**: Read sample stopover airports and connection durations for a flight ID.\"}]}"
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                    "type": "function",
+                    "function": {
+                      "name": "get_schema",
+                      "arguments": "{\"tools\":[\"search_flights\",\"get_baggage_policy\"]}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"### search_flights\\nSearch sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"from\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Origin IATA or city, e.g. BLR or Bengaluru\\\"\\n    },\\n    \\\"to\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Destination IATA or city, e.g. SYD or Sydney\\\"\\n    },\\n    \\\"maxPrice\\\": {\\n      \\\"type\\\": \\\"number\\\",\\n      \\\"exclusiveMinimum\\\": 0,\\n      \\\"description\\\": \\\"Exclusive upper price bound in INR\\\"\\n    },\\n    \\\"availableOnly\\\": {\\n      \\\"type\\\": \\\"boolean\\\",\\n      \\\"default\\\": true,\\n      \\\"description\\\": \\\"Return only flights with seats by default; false includes sold-out fixtures\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"from\\\",\\n    \\\"to\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\\n\\n### get_baggage_policy\\nLook up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"flightId\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Sample flight ID returned by search_flights\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"flightId\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\"}]}"
+              }
+            ],
+            "toolChoice": "auto",
+            "toolNames": [
+              "search",
+              "get_schema",
+              "execute"
+            ],
+            "toolDefinitionCount": 3,
+            "toolDefinitionsReference": "discovery.result",
+            "turn": 3,
+            "attempt": 2
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 1975,
+            "outputTokens": 329,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 0,
+            "intermediateBytes": 3279,
+            "latencyMs": 11943,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "5c834cc9-4a85-4a51-90cb-4f6e7a8bfa9d",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.response",
+          "name": "Model response 4",
+          "timestamp": "2026-11-25T19:06:06.564Z",
+          "durationMs": 1729.0076249999984,
+          "payload": {
+            "message": {
+              "role": "assistant",
+              "content": null,
+              "tool_calls": [
+                {
+                  "id": "fc_9cb50a6d-413a-4a58-b856-54209b49b1b4",
+                  "type": "function",
+                  "function": {
+                    "name": "execute",
+                    "arguments": "{\"code\":\"const searchResult = await callTool('search_flights', { from: 'BLR', to: 'SYD', maxPrice: 40000 });\\nconst flights = searchResult.flights || [];\\n// get baggage policies in parallel\\nconst baggagePromises = flights.map(f =\\u003e callTool('get_baggage_policy', { flightId: f.id }));\\nconst baggageResults = await Promise.all(baggagePromises);\\n// combine\\nconst combined = flights.map((f, idx) =\\u003e ({\\n  id: f.id,\\n  airline: f.airline,\\n  price: f.price,\\n  checkedKg: baggageResults[idx].checkedKg\\n}));\\n// filter \\u003e=20kg\\nconst filtered = combined.filter(item =\\u003e item.checkedKg \\u003e= 20);\\n// take three cheapest (already sorted by price from search)\\nconst topThree = filtered.slice(0, 3);\\nreturn { options: topThree, sampleData: true };\"}"
+                  }
+                }
+              ]
+            },
+            "servedModel": "openai/gpt-oss-120b",
+            "usage": {
+              "queue_time": 0.374605373,
+              "prompt_tokens": 1695,
+              "prompt_time": 0.320649284,
+              "completion_tokens": 414,
+              "completion_time": 0.868500376,
+              "total_tokens": 2109,
+              "total_time": 1.18914966,
+              "completion_tokens_details": {
+                "reasoning_tokens": 185
+              }
+            },
+            "finishReason": "tool_calls"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 0,
+            "intermediateBytes": 3279,
+            "latencyMs": 13673,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "7fd51b81-4bbd-40bf-a826-bdcba880c94d",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "mcp.request",
+          "name": "execute",
+          "timestamp": "2026-11-25T19:06:06.564Z",
+          "payload": {
+            "jsonrpc": "2.0",
+            "method": "tools/call",
+            "params": {
+              "name": "execute",
+              "arguments": {
+                "code": "const searchResult = await callTool('search_flights', { from: 'BLR', to: 'SYD', maxPrice: 40000 });\nconst flights = searchResult.flights || [];\n// get baggage policies in parallel\nconst baggagePromises = flights.map(f => callTool('get_baggage_policy', { flightId: f.id }));\nconst baggageResults = await Promise.all(baggagePromises);\n// combine\nconst combined = flights.map((f, idx) => ({\n  id: f.id,\n  airline: f.airline,\n  price: f.price,\n  checkedKg: baggageResults[idx].checkedKg\n}));\n// filter >=20kg\nconst filtered = combined.filter(item => item.checkedKg >= 20);\n// take three cheapest (already sorted by price from search)\nconst topThree = filtered.slice(0, 3);\nreturn { options: topThree, sampleData: true };"
+              }
+            },
+            "modelToolCallId": "fc_9cb50a6d-413a-4a58-b856-54209b49b1b4"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 0,
+            "intermediateBytes": 3279,
+            "latencyMs": 13673,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "43cb1151-2a9a-4e94-8140-e0b837ecec8c",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "code.generated",
+          "name": "Model-generated JavaScript",
+          "timestamp": "2026-11-25T19:06:06.564Z",
+          "payload": {
+            "code": "const searchResult = await callTool('search_flights', { from: 'BLR', to: 'SYD', maxPrice: 40000 });\nconst flights = searchResult.flights || [];\n// get baggage policies in parallel\nconst baggagePromises = flights.map(f => callTool('get_baggage_policy', { flightId: f.id }));\nconst baggageResults = await Promise.all(baggagePromises);\n// combine\nconst combined = flights.map((f, idx) => ({\n  id: f.id,\n  airline: f.airline,\n  price: f.price,\n  checkedKg: baggageResults[idx].checkedKg\n}));\n// filter >=20kg\nconst filtered = combined.filter(item => item.checkedKg >= 20);\n// take three cheapest (already sorted by price from search)\nconst topThree = filtered.slice(0, 3);\nreturn { options: topThree, sampleData: true };",
+            "instrumentation": "Tool boundaries only; NitroStack does not expose line-level execution hooks."
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 0,
+            "intermediateBytes": 3279,
+            "latencyMs": 13673,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "550d3228-0978-4905-ae7f-3439fa1dd67f",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "search_flights",
+          "timestamp": "2026-11-25T19:06:06.590Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "30e4f897-e6ef-4828-a888-34e6c05e3d2c",
+            "name": "search_flights",
+            "args": {
+              "from": "BLR",
+              "to": "SYD",
+              "maxPrice": 40000,
+              "availableOnly": true
+            },
+            "timestamp": "2026-11-25T19:06:06.590Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 1,
+            "intermediateBytes": 3279,
+            "latencyMs": 13699,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "c4c32db6-dbaa-4ced-88ca-2a1d4bd6d29c",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "search_flights",
+          "timestamp": "2026-11-25T19:06:06.591Z",
+          "durationMs": 0.367207999999664,
+          "payload": {
+            "type": "tool.end",
+            "callId": "30e4f897-e6ef-4828-a888-34e6c05e3d2c",
+            "name": "search_flights",
+            "result": {
+              "sampleData": true,
+              "dataset": "travel-fixtures-2026-11-v1",
+              "flights": [
+                {
+                  "id": "NS-108",
+                  "airline": "Scoot",
+                  "airlineCode": "TR",
+                  "price": 27300,
+                  "seats": 9,
+                  "via": "SIN",
+                  "durationMinutes": 1110,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                },
+                {
+                  "id": "NS-101",
+                  "airline": "IndiGo",
+                  "airlineCode": "6E",
+                  "price": 29800,
+                  "seats": 8,
+                  "via": "SIN",
+                  "durationMinutes": 930,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                },
+                {
+                  "id": "NS-104",
+                  "airline": "Malaysia Airlines",
+                  "airlineCode": "MH",
+                  "price": 33700,
+                  "seats": 5,
+                  "via": "KUL",
+                  "durationMinutes": 960,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                },
+                {
+                  "id": "NS-107",
+                  "airline": "Thai Airways",
+                  "airlineCode": "TG",
+                  "price": 35200,
+                  "seats": 3,
+                  "via": "BKK",
+                  "durationMinutes": 1020,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                },
+                {
+                  "id": "NS-102",
+                  "airline": "Air India",
+                  "airlineCode": "AI",
+                  "price": 36400,
+                  "seats": 6,
+                  "via": "DEL",
+                  "durationMinutes": 1080,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                },
+                {
+                  "id": "NS-110",
+                  "airline": "Air India",
+                  "airlineCode": "AI",
+                  "price": 37800,
+                  "seats": 1,
+                  "via": "BOM",
+                  "durationMinutes": 1000,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                },
+                {
+                  "id": "NS-103",
+                  "airline": "Singapore Airlines",
+                  "airlineCode": "SQ",
+                  "price": 38900,
+                  "seats": 4,
+                  "via": "SIN",
+                  "durationMinutes": 870,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                },
+                {
+                  "id": "NS-109",
+                  "airline": "Cathay Pacific",
+                  "airlineCode": "CX",
+                  "price": 39500,
+                  "seats": 2,
+                  "via": "HKG",
+                  "durationMinutes": 1210,
+                  "from": "BLR",
+                  "to": "SYD",
+                  "currency": "INR",
+                  "sampleData": true,
+                  "available": true
+                }
+              ]
+            },
+            "durationMs": 0.367207999999664,
+            "timestamp": "2026-11-25T19:06:06.590Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 1,
+            "intermediateBytes": 3279,
+            "latencyMs": 13700,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "67d0c278-f7c1-4b98-afbb-e676abb6cfd4",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.593Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "c5457b87-e802-4328-8e55-2ea02724ec69",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-108"
+            },
+            "timestamp": "2026-11-25T19:06:06.593Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 2,
+            "intermediateBytes": 3279,
+            "latencyMs": 13702,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "aa7340dd-df33-44ea-8ac3-349af8999055",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.593Z",
+          "durationMs": 0.11445800000001327,
+          "payload": {
+            "type": "tool.end",
+            "callId": "c5457b87-e802-4328-8e55-2ea02724ec69",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-108",
+              "checkedKg": 0,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.11445800000001327,
+            "timestamp": "2026-11-25T19:06:06.593Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 2,
+            "intermediateBytes": 3279,
+            "latencyMs": 13702,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "5e8465c5-4c57-43fa-9c1f-0887670304c6",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.593Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "388e64a9-ff11-4223-b2a4-492e458df6f8",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-101"
+            },
+            "timestamp": "2026-11-25T19:06:06.593Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 3,
+            "intermediateBytes": 3279,
+            "latencyMs": 13702,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "baf986c4-5c40-4ec1-80ff-cf9e072337f4",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.594Z",
+          "durationMs": 0.05925000000024738,
+          "payload": {
+            "type": "tool.end",
+            "callId": "388e64a9-ff11-4223-b2a4-492e458df6f8",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-101",
+              "checkedKg": 15,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.05925000000024738,
+            "timestamp": "2026-11-25T19:06:06.593Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 3,
+            "intermediateBytes": 3279,
+            "latencyMs": 13702,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "b5cdea47-bc86-4f7f-9e9e-25b0d5e7da04",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.594Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "be7d0727-835e-48c4-a64c-eb6efe07e6d7",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-104"
+            },
+            "timestamp": "2026-11-25T19:06:06.594Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 4,
+            "intermediateBytes": 3279,
+            "latencyMs": 13703,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "aaf21a32-e6fd-4337-b48b-4edd6a5d798e",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.594Z",
+          "durationMs": 0.051124999999956344,
+          "payload": {
+            "type": "tool.end",
+            "callId": "be7d0727-835e-48c4-a64c-eb6efe07e6d7",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-104",
+              "checkedKg": 20,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.051124999999956344,
+            "timestamp": "2026-11-25T19:06:06.594Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 4,
+            "intermediateBytes": 3279,
+            "latencyMs": 13703,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "917239a6-b63e-4fb4-b55b-ff3320453805",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.594Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "73ca8ff5-a501-429b-bcc5-1c0684853e9c",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-107"
+            },
+            "timestamp": "2026-11-25T19:06:06.594Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 5,
+            "intermediateBytes": 3279,
+            "latencyMs": 13703,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "98505eea-08cd-4a3d-ae6f-4dcb5fea566b",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.594Z",
+          "durationMs": 0.028542000000015832,
+          "payload": {
+            "type": "tool.end",
+            "callId": "73ca8ff5-a501-429b-bcc5-1c0684853e9c",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-107",
+              "checkedKg": 20,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.028542000000015832,
+            "timestamp": "2026-11-25T19:06:06.594Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 5,
+            "intermediateBytes": 3279,
+            "latencyMs": 13703,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "be7422ba-48b1-4fe1-8c52-79de4b81bbec",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.594Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "a202e47b-747a-4271-8a30-3ee43831ab87",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-102"
+            },
+            "timestamp": "2026-11-25T19:06:06.594Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 6,
+            "intermediateBytes": 3279,
+            "latencyMs": 13703,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "709869fc-bc2f-4a76-9745-28d8e63c9ed8",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.595Z",
+          "durationMs": 0.08404200000040873,
+          "payload": {
+            "type": "tool.end",
+            "callId": "a202e47b-747a-4271-8a30-3ee43831ab87",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-102",
+              "checkedKg": 25,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.08404200000040873,
+            "timestamp": "2026-11-25T19:06:06.594Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 6,
+            "intermediateBytes": 3279,
+            "latencyMs": 13704,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "c6ca3677-59b8-4206-8a3f-0909372016ea",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.595Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "f521b369-e93d-4e25-baa4-0fad90e54e94",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-110"
+            },
+            "timestamp": "2026-11-25T19:06:06.595Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 7,
+            "intermediateBytes": 3279,
+            "latencyMs": 13704,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "b02371d1-31d0-4b83-af27-a7ab85cc418e",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.595Z",
+          "durationMs": 0.039042000000335975,
+          "payload": {
+            "type": "tool.end",
+            "callId": "f521b369-e93d-4e25-baa4-0fad90e54e94",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-110",
+              "checkedKg": 25,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.039042000000335975,
+            "timestamp": "2026-11-25T19:06:06.595Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 7,
+            "intermediateBytes": 3279,
+            "latencyMs": 13704,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "9f79e7f1-e8e4-44fb-82be-350cf9cb4704",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.595Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "eced79d1-f282-44f2-b67b-447a20d3430c",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-103"
+            },
+            "timestamp": "2026-11-25T19:06:06.595Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 8,
+            "intermediateBytes": 3279,
+            "latencyMs": 13704,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "32fa81f1-0636-49b5-bf31-893798e3c6f2",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.595Z",
+          "durationMs": 0.02379099999961909,
+          "payload": {
+            "type": "tool.end",
+            "callId": "eced79d1-f282-44f2-b67b-447a20d3430c",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-103",
+              "checkedKg": 30,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.02379099999961909,
+            "timestamp": "2026-11-25T19:06:06.595Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 8,
+            "intermediateBytes": 3279,
+            "latencyMs": 13704,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "2ba0466c-d11c-4718-8f80-ef909322fcdd",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.start",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.596Z",
+          "payload": {
+            "type": "tool.start",
+            "callId": "7c7c90e2-96e4-481d-baa1-94d3cbf1706b",
+            "name": "get_baggage_policy",
+            "args": {
+              "flightId": "NS-109"
+            },
+            "timestamp": "2026-11-25T19:06:06.596Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 9,
+            "intermediateBytes": 3279,
+            "latencyMs": 13705,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "a389d8b1-9fe4-4b3f-a657-9cf1006b010a",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "tool.end",
+          "name": "get_baggage_policy",
+          "timestamp": "2026-11-25T19:06:06.596Z",
+          "durationMs": 0.10708300000078452,
+          "payload": {
+            "type": "tool.end",
+            "callId": "7c7c90e2-96e4-481d-baa1-94d3cbf1706b",
+            "name": "get_baggage_policy",
+            "result": {
+              "sampleData": true,
+              "flightId": "NS-109",
+              "checkedKg": 23,
+              "cabinKg": 7,
+              "includedInFare": true
+            },
+            "durationMs": 0.10708300000078452,
+            "timestamp": "2026-11-25T19:06:06.596Z"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 9,
+            "intermediateBytes": 3279,
+            "latencyMs": 13705,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "12c9292b-f05d-4cfd-836f-b8f6612307df",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "mcp.response",
+          "name": "execute",
+          "timestamp": "2026-11-25T19:06:06.599Z",
+          "durationMs": 34.45120899999165,
+          "payload": {
+            "result": {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "{\n  \"options\": [\n    {\n      \"id\": \"NS-104\",\n      \"airline\": \"Malaysia Airlines\",\n      \"price\": 33700,\n      \"checkedKg\": 20\n    },\n    {\n      \"id\": \"NS-107\",\n      \"airline\": \"Thai Airways\",\n      \"price\": 35200,\n      \"checkedKg\": 20\n    },\n    {\n      \"id\": \"NS-102\",\n      \"airline\": \"Air India\",\n      \"price\": 36400,\n      \"checkedKg\": 25\n    }\n  ],\n  \"sampleData\": true\n}"
+                }
+              ]
+            },
+            "modelToolCallId": "fc_9cb50a6d-413a-4a58-b856-54209b49b1b4",
+            "bytesToModel": 482
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 4,
+            "toolCalls": 9,
+            "intermediateBytes": 3761,
+            "latencyMs": 13708,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "991196b4-50f2-47d1-a466-ea4e02d9e4d9",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.request",
+          "name": "Model request 5",
+          "timestamp": "2026-11-25T19:06:06.599Z",
+          "payload": {
+            "model": "openai/gpt-oss-120b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You are a travel research agent using deterministic sample travel data, never real availability. Follow the user request faithfully, only use available capabilities, check availability and baggage as needed. All prices are per adult INR. Unless the user explicitly requests sold-out options, only recommend available flights (seats > 0). Apply every eligibility constraint before selecting the requested cheapest options. Do not invent tool results. When complete, return JSON as assistant message content, with no tool calls. JSON is a text format, never a tool or function name. Return your final answer as JSON with an options array (each item includes id, airline, price, checkedKg), plus a brief explanation and sampleData:true. For other user questions use an appropriate JSON answer. You may batch independent calls in parallel. If no flights match say so. Bengaluru is BLR and Sydney is SYD. Discover tools with search, inspect exact schemas with get_schema, then write ES2020 JavaScript for execute. The code string is the BODY of an async function, executed immediately: use top-level await callTool(name,argsObject) and return a JSON value. Never submit a bare async () => {...} or uninvoked function: that returns null without calling tools. No Markdown fences. Tool-agnostic contract example: const result = await callTool(\"tool_name\", {}); return result; callTool returns the tool handler result directly (not an MCP content envelope). Use Promise.all for independent requests if useful. Do not invoke meta-tools through callTool. No Node globals, import, fetch, require or process. Keep intermediate data in the sandbox. Return only necessary final options."
+              },
+              {
+                "role": "user",
+                "content": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                    "type": "function",
+                    "function": {
+                      "name": "search",
+                      "arguments": "{\"limit\":10}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"- **search_flights**: Search sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n- **get_flight_details**: Read complete details for one sample flight including its itinerary and baggage allowance.\\n- **compare_fares**: Compare and sort the total INR prices of specified sample flight IDs.\\n- **get_baggage_policy**: Look up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n- **check_availability**: Read available sample seats and availability for one flight ID.\\n- **get_airline_details**: Read the sample airline directory by carrier IATA code, e.g. AI, MH, TG or SQ.\\n- **get_airport_details**: Read the sample airport directory by IATA or city name.\\n- **get_cancellation_policy**: Read sample cancellation rules and fees for a flight ID.\\n- **get_refund_policy**: Read sample refund eligibility, fees and processing days for a flight ID.\\n- **get_layover_details**: Read sample stopover airports and connection durations for a flight ID.\"}]}"
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                    "type": "function",
+                    "function": {
+                      "name": "get_schema",
+                      "arguments": "{\"tools\":[\"search_flights\",\"get_baggage_policy\"]}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"### search_flights\\nSearch sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"from\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Origin IATA or city, e.g. BLR or Bengaluru\\\"\\n    },\\n    \\\"to\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Destination IATA or city, e.g. SYD or Sydney\\\"\\n    },\\n    \\\"maxPrice\\\": {\\n      \\\"type\\\": \\\"number\\\",\\n      \\\"exclusiveMinimum\\\": 0,\\n      \\\"description\\\": \\\"Exclusive upper price bound in INR\\\"\\n    },\\n    \\\"availableOnly\\\": {\\n      \\\"type\\\": \\\"boolean\\\",\\n      \\\"default\\\": true,\\n      \\\"description\\\": \\\"Return only flights with seats by default; false includes sold-out fixtures\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"from\\\",\\n    \\\"to\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\\n\\n### get_baggage_policy\\nLook up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"flightId\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Sample flight ID returned by search_flights\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"flightId\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\"}]}"
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_9cb50a6d-413a-4a58-b856-54209b49b1b4",
+                    "type": "function",
+                    "function": {
+                      "name": "execute",
+                      "arguments": "{\"code\":\"const searchResult = await callTool('search_flights', { from: 'BLR', to: 'SYD', maxPrice: 40000 });\\nconst flights = searchResult.flights || [];\\n// get baggage policies in parallel\\nconst baggagePromises = flights.map(f =\\u003e callTool('get_baggage_policy', { flightId: f.id }));\\nconst baggageResults = await Promise.all(baggagePromises);\\n// combine\\nconst combined = flights.map((f, idx) =\\u003e ({\\n  id: f.id,\\n  airline: f.airline,\\n  price: f.price,\\n  checkedKg: baggageResults[idx].checkedKg\\n}));\\n// filter \\u003e=20kg\\nconst filtered = combined.filter(item =\\u003e item.checkedKg \\u003e= 20);\\n// take three cheapest (already sorted by price from search)\\nconst topThree = filtered.slice(0, 3);\\nreturn { options: topThree, sampleData: true };\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_9cb50a6d-413a-4a58-b856-54209b49b1b4",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"{\\n  \\\"options\\\": [\\n    {\\n      \\\"id\\\": \\\"NS-104\\\",\\n      \\\"airline\\\": \\\"Malaysia Airlines\\\",\\n      \\\"price\\\": 33700,\\n      \\\"checkedKg\\\": 20\\n    },\\n    {\\n      \\\"id\\\": \\\"NS-107\\\",\\n      \\\"airline\\\": \\\"Thai Airways\\\",\\n      \\\"price\\\": 35200,\\n      \\\"checkedKg\\\": 20\\n    },\\n    {\\n      \\\"id\\\": \\\"NS-102\\\",\\n      \\\"airline\\\": \\\"Air India\\\",\\n      \\\"price\\\": 36400,\\n      \\\"checkedKg\\\": 25\\n    }\\n  ],\\n  \\\"sampleData\\\": true\\n}\"}]}"
+              }
+            ],
+            "toolChoice": "auto",
+            "toolNames": [
+              "search",
+              "get_schema",
+              "execute"
+            ],
+            "toolDefinitionCount": 3,
+            "toolDefinitionsReference": "discovery.result",
+            "turn": 4,
+            "attempt": 1
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 5,
+            "toolCalls": 9,
+            "intermediateBytes": 3761,
+            "latencyMs": 13708,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "22380917-3c27-4936-bb8c-c79868db8f93",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.rate_limit",
+          "name": "Rate limited · retrying in 17.5s",
+          "timestamp": "2026-11-25T19:06:06.648Z",
+          "durationMs": 49.43020900001284,
+          "payload": {
+            "httpStatus": 429,
+            "retry": 1,
+            "maxRetries": 5,
+            "waitMs": 17500,
+            "providerMessage": "Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01jzckazx4extsexybr6czw7ms` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 7844, Requested 2324. Please try again in 16.26s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 5,
+            "toolCalls": 9,
+            "intermediateBytes": 3761,
+            "latencyMs": 13757,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "18b6a069-a48f-4efa-a114-6d7723c8ba7c",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.request",
+          "name": "Model request 6",
+          "timestamp": "2026-11-25T19:06:24.150Z",
+          "payload": {
+            "model": "openai/gpt-oss-120b",
+            "messages": [
+              {
+                "role": "system",
+                "content": "You are a travel research agent using deterministic sample travel data, never real availability. Follow the user request faithfully, only use available capabilities, check availability and baggage as needed. All prices are per adult INR. Unless the user explicitly requests sold-out options, only recommend available flights (seats > 0). Apply every eligibility constraint before selecting the requested cheapest options. Do not invent tool results. When complete, return JSON as assistant message content, with no tool calls. JSON is a text format, never a tool or function name. Return your final answer as JSON with an options array (each item includes id, airline, price, checkedKg), plus a brief explanation and sampleData:true. For other user questions use an appropriate JSON answer. You may batch independent calls in parallel. If no flights match say so. Bengaluru is BLR and Sydney is SYD. Discover tools with search, inspect exact schemas with get_schema, then write ES2020 JavaScript for execute. The code string is the BODY of an async function, executed immediately: use top-level await callTool(name,argsObject) and return a JSON value. Never submit a bare async () => {...} or uninvoked function: that returns null without calling tools. No Markdown fences. Tool-agnostic contract example: const result = await callTool(\"tool_name\", {}); return result; callTool returns the tool handler result directly (not an MCP content envelope). Use Promise.all for independent requests if useful. Do not invoke meta-tools through callTool. No Node globals, import, fetch, require or process. Keep intermediate data in the sandbox. Return only necessary final options."
+              },
+              {
+                "role": "user",
+                "content": "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage."
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                    "type": "function",
+                    "function": {
+                      "name": "search",
+                      "arguments": "{\"limit\":10}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_86995cfc-40aa-4506-8fdd-0a7f904b0815",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"- **search_flights**: Search sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n- **get_flight_details**: Read complete details for one sample flight including its itinerary and baggage allowance.\\n- **compare_fares**: Compare and sort the total INR prices of specified sample flight IDs.\\n- **get_baggage_policy**: Look up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n- **check_availability**: Read available sample seats and availability for one flight ID.\\n- **get_airline_details**: Read the sample airline directory by carrier IATA code, e.g. AI, MH, TG or SQ.\\n- **get_airport_details**: Read the sample airport directory by IATA or city name.\\n- **get_cancellation_policy**: Read sample cancellation rules and fees for a flight ID.\\n- **get_refund_policy**: Read sample refund eligibility, fees and processing days for a flight ID.\\n- **get_layover_details**: Read sample stopover airports and connection durations for a flight ID.\"}]}"
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                    "type": "function",
+                    "function": {
+                      "name": "get_schema",
+                      "arguments": "{\"tools\":[\"search_flights\",\"get_baggage_policy\"]}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_4a400c4c-270e-4cc4-8eb3-50cf2dc4dce4",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"### search_flights\\nSearch sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"from\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Origin IATA or city, e.g. BLR or Bengaluru\\\"\\n    },\\n    \\\"to\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Destination IATA or city, e.g. SYD or Sydney\\\"\\n    },\\n    \\\"maxPrice\\\": {\\n      \\\"type\\\": \\\"number\\\",\\n      \\\"exclusiveMinimum\\\": 0,\\n      \\\"description\\\": \\\"Exclusive upper price bound in INR\\\"\\n    },\\n    \\\"availableOnly\\\": {\\n      \\\"type\\\": \\\"boolean\\\",\\n      \\\"default\\\": true,\\n      \\\"description\\\": \\\"Return only flights with seats by default; false includes sold-out fixtures\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"from\\\",\\n    \\\"to\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\\n\\n### get_baggage_policy\\nLook up included checked baggage kilograms and cabin baggage for a sample flight ID. Returns {sampleData, flightId, checkedKg, cabinKg, includedInFare}.\\n```json\\n{\\n  \\\"properties\\\": {\\n    \\\"flightId\\\": {\\n      \\\"type\\\": \\\"string\\\",\\n      \\\"description\\\": \\\"Sample flight ID returned by search_flights\\\"\\n    }\\n  },\\n  \\\"required\\\": [\\n    \\\"flightId\\\"\\n  ],\\n  \\\"additionalProperties\\\": true,\\n  \\\"$schema\\\": \\\"http://json-schema.org/draft-07/schema#\\\",\\n  \\\"type\\\": \\\"object\\\"\\n}\\n```\"}]}"
+              },
+              {
+                "role": "assistant",
+                "content": null,
+                "tool_calls": [
+                  {
+                    "id": "fc_9cb50a6d-413a-4a58-b856-54209b49b1b4",
+                    "type": "function",
+                    "function": {
+                      "name": "execute",
+                      "arguments": "{\"code\":\"const searchResult = await callTool('search_flights', { from: 'BLR', to: 'SYD', maxPrice: 40000 });\\nconst flights = searchResult.flights || [];\\n// get baggage policies in parallel\\nconst baggagePromises = flights.map(f =\\u003e callTool('get_baggage_policy', { flightId: f.id }));\\nconst baggageResults = await Promise.all(baggagePromises);\\n// combine\\nconst combined = flights.map((f, idx) =\\u003e ({\\n  id: f.id,\\n  airline: f.airline,\\n  price: f.price,\\n  checkedKg: baggageResults[idx].checkedKg\\n}));\\n// filter \\u003e=20kg\\nconst filtered = combined.filter(item =\\u003e item.checkedKg \\u003e= 20);\\n// take three cheapest (already sorted by price from search)\\nconst topThree = filtered.slice(0, 3);\\nreturn { options: topThree, sampleData: true };\"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "role": "tool",
+                "tool_call_id": "fc_9cb50a6d-413a-4a58-b856-54209b49b1b4",
+                "content": "{\"content\":[{\"type\":\"text\",\"text\":\"{\\n  \\\"options\\\": [\\n    {\\n      \\\"id\\\": \\\"NS-104\\\",\\n      \\\"airline\\\": \\\"Malaysia Airlines\\\",\\n      \\\"price\\\": 33700,\\n      \\\"checkedKg\\\": 20\\n    },\\n    {\\n      \\\"id\\\": \\\"NS-107\\\",\\n      \\\"airline\\\": \\\"Thai Airways\\\",\\n      \\\"price\\\": 35200,\\n      \\\"checkedKg\\\": 20\\n    },\\n    {\\n      \\\"id\\\": \\\"NS-102\\\",\\n      \\\"airline\\\": \\\"Air India\\\",\\n      \\\"price\\\": 36400,\\n      \\\"checkedKg\\\": 25\\n    }\\n  ],\\n  \\\"sampleData\\\": true\\n}\"}]}"
+              }
+            ],
+            "toolChoice": "auto",
+            "toolNames": [
+              "search",
+              "get_schema",
+              "execute"
+            ],
+            "toolDefinitionCount": 3,
+            "toolDefinitionsReference": "discovery.result",
+            "turn": 4,
+            "attempt": 2
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 3670,
+            "outputTokens": 743,
+            "cachedInputTokens": 0,
+            "modelRequests": 6,
+            "toolCalls": 9,
+            "intermediateBytes": 3761,
+            "latencyMs": 31259,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "8c119418-512d-45d7-8828-7fd53ed308ae",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "model.response",
+          "name": "Model response 6",
+          "timestamp": "2026-11-25T19:06:24.916Z",
+          "durationMs": 765.2459999999846,
+          "payload": {
+            "message": {
+              "role": "assistant",
+              "content": "{\n  \"options\": [\n    {\n      \"id\": \"NS-104\",\n      \"airline\": \"Malaysia Airlines\",\n      \"price\": 33700,\n      \"checkedKg\": 20\n    },\n    {\n      \"id\": \"NS-107\",\n      \"airline\": \"Thai Airways\",\n      \"price\": 35200,\n      \"checkedKg\": 20\n    },\n    {\n      \"id\": \"NS-102\",\n      \"airline\": \"Air India\",\n      \"price\": 36400,\n      \"checkedKg\": 25\n    }\n  ],\n  \"explanation\": \"These are the three cheapest sample flights from Bengaluru (BLR) to Sydney (SYD) under ₹40,000 that include at least 20 kg of checked baggage.\",\n  \"sampleData\": true\n}"
+            },
+            "servedModel": "openai/gpt-oss-120b",
+            "usage": {
+              "queue_time": 0.15632056,
+              "prompt_tokens": 2106,
+              "prompt_time": 0.121194946,
+              "completion_tokens": 176,
+              "completion_time": 0.365272764,
+              "total_tokens": 2282,
+              "total_time": 0.48646771
+            },
+            "finishReason": "stop"
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 5776,
+            "outputTokens": 919,
+            "cachedInputTokens": 0,
+            "modelRequests": 6,
+            "toolCalls": 9,
+            "intermediateBytes": 3761,
+            "latencyMs": 32025,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        },
+        {
+          "id": "6f832dc9-df48-4cc6-ab19-f2b9ebf5a4de",
+          "runId": "11e9d79e-0196-41c6-b1af-515f6c7746de",
+          "mode": "code",
+          "type": "run.complete",
+          "name": "Final answer",
+          "timestamp": "2026-11-25T19:06:24.916Z",
+          "payload": {
+            "answer": {
+              "options": [
+                {
+                  "id": "NS-104",
+                  "airline": "Malaysia Airlines",
+                  "price": 33700,
+                  "checkedKg": 20
+                },
+                {
+                  "id": "NS-107",
+                  "airline": "Thai Airways",
+                  "price": 35200,
+                  "checkedKg": 20
+                },
+                {
+                  "id": "NS-102",
+                  "airline": "Air India",
+                  "price": 36400,
+                  "checkedKg": 25
+                }
+              ],
+              "explanation": "These are the three cheapest sample flights from Bengaluru (BLR) to Sydney (SYD) under ₹40,000 that include at least 20 kg of checked baggage.",
+              "sampleData": true
+            }
+          },
+          "metrics": {
+            "exposedTools": 3,
+            "catalogSize": 10,
+            "initialDefinitionTokens": 496,
+            "initialDefinitionBytes": 1984,
+            "inputTokens": 5776,
+            "outputTokens": 919,
+            "cachedInputTokens": 0,
+            "modelRequests": 6,
+            "toolCalls": 9,
+            "intermediateBytes": 3761,
+            "latencyMs": 32025,
+            "costUSD": null,
+            "usageSource": "provider"
+          }
+        }
+      ],
+      "metrics": {
+        "exposedTools": 3,
+        "catalogSize": 10,
+        "initialDefinitionTokens": 496,
+        "initialDefinitionBytes": 1984,
+        "inputTokens": 5776,
+        "outputTokens": 919,
+        "cachedInputTokens": 0,
+        "modelRequests": 6,
+        "toolCalls": 9,
+        "intermediateBytes": 3761,
+        "latencyMs": 32048,
+        "costUSD": null,
+        "usageSource": "provider"
+      },
+      "answer": {
+        "options": [
+          {
+            "id": "NS-104",
+            "airline": "Malaysia Airlines",
+            "price": 33700,
+            "checkedKg": 20
+          },
+          {
+            "id": "NS-107",
+            "airline": "Thai Airways",
+            "price": 35200,
+            "checkedKg": 20
+          },
+          {
+            "id": "NS-102",
+            "airline": "Air India",
+            "price": 36400,
+            "checkedKg": 25
+          }
+        ],
+        "explanation": "These are the three cheapest sample flights from Bengaluru (BLR) to Sydney (SYD) under ₹40,000 that include at least 20 kg of checked baggage.",
+        "sampleData": true
+      }
+    }
+  ]
+}

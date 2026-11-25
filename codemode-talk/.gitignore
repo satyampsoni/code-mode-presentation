@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.env*
+.DS_Store
+
+travel-lab/dist/
+travel-lab/*.tsbuildinfo
+!.env.example
+
+travel-lab/.debug/
+
+observability/metrics/*
+!observability/metrics/.gitkeep
