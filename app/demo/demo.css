@@ -1596,29 +1596,33 @@
 }
 .grafana-dashboard {
   margin: 38px 3.2% 30px;
-  border: 1px solid #dfe5ed;
-  border-radius: 11px;
+  border: 1px solid #2c3235;
+  border-radius: 2px;
   overflow: hidden;
-  background: #fff;
+  background: #111217;
+  color: #ccccdc;
   scroll-margin-top: 24px;
 }
 .grafana-dashboard > header {
-  padding: 27px 25px 0;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  background: #181b1f;
+  border-bottom: 1px solid #2c3235;
 }
 .grafana-dashboard .eyebrow {
   font-size: 11px;
-  color: #bd7939;
+  color: #ff780a;
   letter-spacing: 1.2px;
 }
 .grafana-dashboard h3 {
-  font-size: 26px;
-  letter-spacing: -0.8px;
+  font-size: 18px;
+  letter-spacing: 0;
   font-weight: 500;
-  margin-top: 11px;
+  margin-top: 4px;
+  color: #ccccdc;
 }
 .grafana-dashboard > header > div:last-child {
   display: flex;
@@ -1627,50 +1631,36 @@
 }
 .grafana-connection {
   font-size: 12px;
-  color: #9aa6b5;
+  color: #8e8ea8;
   display: flex;
   align-items: center;
   gap: 7px;
   white-space: nowrap;
 }
 .grafana-connection i {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: #b7bfc9;
+  background: #6e6e80;
 }
 .grafana-connection.ready i {
-  background: #16a34a;
+  background: #73bf69;
+  box-shadow: 0 0 0 3px rgba(115, 191, 105, 0.18);
 }
 .grafana-dashboard a {
   display: flex;
   align-items: center;
   gap: 7px;
   font-size: 12px;
-  color: #8292a6;
+  color: #6e9fff;
   white-space: nowrap;
-}
-.grafana-dashboard > p {
-  font-size: 12px;
-  line-height: 1.7;
-  color: #8e9cad;
-  margin: 15px 25px 24px;
 }
 .grafana-dashboard iframe {
   display: block;
   border: 0;
-  border-top: 1px solid #e4e9ef;
   width: 100%;
-  height: 1140px;
-  background: #fafbfc;
-}
-.grafana-dashboard > footer {
-  font-size: 11px;
-  line-height: 1.7;
-  color: #a2adbb;
-  padding: 16px 25px;
-  border-top: 1px solid #e4eaf2;
-  background: #fcfdfe;
+  height: 2100px;
+  background: #111217;
 }
 .grafana-loading {
   display: flex;
@@ -1679,32 +1669,31 @@
   justify-content: center;
   min-height: 300px;
   gap: 15px;
-  background: #f9fafc;
-  border-top: 1px solid #e3e9f1;
-  color: #a2adbd;
+  background: #111217;
+  color: #8e8ea8;
 }
 .grafana-loading strong {
   font-size: 15px;
   font-weight: 400;
-  color: #78889d;
+  color: #ccccdc;
 }
 .grafana-loading span {
   font-size: 12px;
 }
 .grafana-loading code {
   font-size: 13px;
-  background: white;
-  border: 1px solid #dfe6ef;
-  border-radius: 5px;
+  background: #181b1f;
+  border: 1px solid #2c3235;
+  border-radius: 2px;
   padding: 10px 16px;
-  color: #7890ae;
+  color: #ccccdc;
 }
 .grafana-loading button {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #929eaf;
+  color: #ccccdc;
   margin-top: 5px;
 }
 @media (max-width: 750px) {
@@ -1716,7 +1705,7 @@
     font-size: 22px;
   }
   .grafana-dashboard iframe {
-    height: 1350px;
+    height: 2600px;
   }
   .grafana-dashboard > header > div:last-child {
     align-self: stretch;

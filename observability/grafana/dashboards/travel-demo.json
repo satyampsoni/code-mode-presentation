@@ -1,13 +1,13 @@
 {
   "uid": "travel-agent-demo",
-  "title": "NitroStack \u00b7 Recorded agent execution",
+  "title": "NitroStack \u00b7 Live agent execution",
   "tags": [
     "nitrostack",
     "mcp",
-    "genuine-recording"
+    "live"
   ],
   "schemaVersion": 41,
-  "version": 1,
+  "version": 6,
   "editable": false,
   "refresh": "2s",
   "time": {
@@ -35,8 +35,8 @@
           "refId": "A",
           "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"exposedTools\"}",
           "legendFormat": "{{mode}}",
-          "instant": true,
-          "range": false,
+          "instant": false,
+          "range": true,
           "format": "time_series",
           "datasource": {
             "type": "prometheus",
@@ -96,8 +96,8 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
+        "colorMode": "background",
+        "graphMode": "area",
         "textMode": "value_and_name",
         "displayMode": "basic",
         "showUnfilled": true,
@@ -106,12 +106,13 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
+        },
+        "justifyMode": "auto"
       }
     },
     {
       "id": 2,
-      "title": "Initial definition tokens \u00b7 estimated",
+      "title": "Definition tokens",
       "type": "stat",
       "gridPos": {
         "x": 6,
@@ -128,8 +129,8 @@
           "refId": "A",
           "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"initialDefinitionTokens\"}",
           "legendFormat": "{{mode}}",
-          "instant": true,
-          "range": false,
+          "instant": false,
+          "range": true,
           "format": "time_series",
           "datasource": {
             "type": "prometheus",
@@ -189,8 +190,8 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
+        "colorMode": "background",
+        "graphMode": "area",
         "textMode": "value_and_name",
         "displayMode": "basic",
         "showUnfilled": true,
@@ -199,12 +200,13 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
+        },
+        "justifyMode": "auto"
       }
     },
     {
       "id": 3,
-      "title": "Model API requests \u00b7 includes retries",
+      "title": "API requests",
       "type": "stat",
       "gridPos": {
         "x": 12,
@@ -221,8 +223,8 @@
           "refId": "A",
           "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}",
           "legendFormat": "{{mode}}",
-          "instant": true,
-          "range": false,
+          "instant": false,
+          "range": true,
           "format": "time_series",
           "datasource": {
             "type": "prometheus",
@@ -282,8 +284,8 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
+        "colorMode": "background",
+        "graphMode": "area",
         "textMode": "value_and_name",
         "displayMode": "basic",
         "showUnfilled": true,
@@ -292,7 +294,8 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
+        },
+        "justifyMode": "auto"
       }
     },
     {
@@ -314,8 +317,8 @@
           "refId": "A",
           "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}",
           "legendFormat": "{{mode}}",
-          "instant": true,
-          "range": false,
+          "instant": false,
+          "range": true,
           "format": "time_series",
           "datasource": {
             "type": "prometheus",
@@ -375,8 +378,8 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
+        "colorMode": "background",
+        "graphMode": "area",
         "textMode": "value_and_name",
         "displayMode": "basic",
         "showUnfilled": true,
@@ -385,7 +388,8 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
+        },
+        "justifyMode": "auto"
       }
     },
     {
@@ -576,7 +580,7 @@
     },
     {
       "id": 7,
-      "title": "Wall time \u00b7 includes provider waits",
+      "title": "Latency",
       "type": "bargauge",
       "gridPos": {
         "x": 12,
@@ -669,7 +673,7 @@
     },
     {
       "id": 8,
-      "title": "Tool-response bytes sent to model",
+      "title": "Traffic",
       "type": "bargauge",
       "gridPos": {
         "x": 18,
@@ -684,7 +688,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"intermediateBytes\"}",
+          "expr": "sum by (mode) (agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=~\"initialDefinitionBytes|intermediateBytes\"})",
           "legendFormat": "{{mode}}",
           "instant": true,
           "range": false,
@@ -762,7 +766,7 @@
     },
     {
       "id": 9,
-      "title": "Input tokens \u00b7 Code Mode difference",
+      "title": "Input token delta",
       "type": "stat",
       "gridPos": {
         "x": 0,
@@ -778,9 +782,9 @@
         {
           "refId": "A",
           "expr": "100 * (sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"inputTokens\"}) - sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"code\",metric=\"inputTokens\"})) / sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"inputTokens\"})",
-          "instant": true,
-          "range": false,
-          "legendFormat": "Positive = less; negative = more"
+          "instant": false,
+          "range": true,
+          "legendFormat": "delta"
         }
       ],
       "fieldConfig": {
@@ -834,9 +838,9 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
         "displayMode": "basic",
         "showUnfilled": true,
         "sizing": "auto",
@@ -844,13 +848,13 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
-      },
-      "description": "Calculated from the selected genuine recording. Positive means Code Mode used less; negative means more. No performance improvement is assumed."
+        },
+        "justifyMode": "auto"
+      }
     },
     {
       "id": 10,
-      "title": "Model requests \u00b7 Code Mode difference",
+      "title": "API request delta",
       "type": "stat",
       "gridPos": {
         "x": 6,
@@ -866,9 +870,9 @@
         {
           "refId": "A",
           "expr": "100 * (sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"modelRequests\"}) - sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"code\",metric=\"modelRequests\"})) / sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"modelRequests\"})",
-          "instant": true,
-          "range": false,
-          "legendFormat": "Positive = less; negative = more"
+          "instant": false,
+          "range": true,
+          "legendFormat": "delta"
         }
       ],
       "fieldConfig": {
@@ -922,9 +926,9 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
         "displayMode": "basic",
         "showUnfilled": true,
         "sizing": "auto",
@@ -932,13 +936,13 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
-      },
-      "description": "Calculated from the selected genuine recording. Positive means Code Mode used less; negative means more. No performance improvement is assumed."
+        },
+        "justifyMode": "auto"
+      }
     },
     {
       "id": 11,
-      "title": "Wall time \u00b7 Code Mode difference",
+      "title": "Latency delta",
       "type": "stat",
       "gridPos": {
         "x": 12,
@@ -954,9 +958,9 @@
         {
           "refId": "A",
           "expr": "100 * (sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"latencyMs\"}) - sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"code\",metric=\"latencyMs\"})) / sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"latencyMs\"})",
-          "instant": true,
-          "range": false,
-          "legendFormat": "Positive = less; negative = more"
+          "instant": false,
+          "range": true,
+          "legendFormat": "delta"
         }
       ],
       "fieldConfig": {
@@ -1010,9 +1014,9 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
         "displayMode": "basic",
         "showUnfilled": true,
         "sizing": "auto",
@@ -1020,13 +1024,13 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
-      },
-      "description": "Calculated from the selected genuine recording. Positive means Code Mode used less; negative means more. No performance improvement is assumed."
+        },
+        "justifyMode": "auto"
+      }
     },
     {
       "id": 12,
-      "title": "Response bytes \u00b7 Code Mode difference",
+      "title": "Traffic delta",
       "type": "stat",
       "gridPos": {
         "x": 18,
@@ -1041,10 +1045,10 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "100 * (sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"intermediateBytes\"}) - sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"code\",metric=\"intermediateBytes\"})) / sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=\"intermediateBytes\"})",
-          "instant": true,
-          "range": false,
-          "legendFormat": "Positive = less; negative = more"
+          "expr": "100 * (sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=~\"initialDefinitionBytes|intermediateBytes\"}) - sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"code\",metric=~\"initialDefinitionBytes|intermediateBytes\"})) / sum(agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",mode=\"traditional\",metric=~\"initialDefinitionBytes|intermediateBytes\"})",
+          "instant": false,
+          "range": true,
+          "legendFormat": "delta"
         }
       ],
       "fieldConfig": {
@@ -1098,9 +1102,9 @@
           "values": false
         },
         "orientation": "horizontal",
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value_and_name",
+        "colorMode": "background",
+        "graphMode": "area",
+        "textMode": "value",
         "displayMode": "basic",
         "showUnfilled": true,
         "sizing": "auto",
@@ -1108,17 +1112,577 @@
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
-        }
+        },
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "id": 20,
+      "type": "timeseries",
+      "title": "Input tokens over time",
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 12,
+        "h": 8
       },
-      "description": "Calculated from the selected genuine recording. Positive means Code Mode used less; negative means more. No performance improvement is assumed."
+      "datasource": {
+        "type": "prometheus",
+        "uid": "travel-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}",
+          "legendFormat": "{{mode}}",
+          "instant": false,
+          "range": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 18,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": true,
+            "axisBorderShow": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*traditional.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*code.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 21,
+      "type": "timeseries",
+      "title": "API requests over time",
+      "gridPos": {
+        "x": 12,
+        "y": 14,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "travel-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}",
+          "legendFormat": "{{mode}}",
+          "instant": false,
+          "range": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 18,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": true,
+            "axisBorderShow": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*traditional.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*code.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": "timeseries",
+      "title": "Tool calls over time",
+      "gridPos": {
+        "x": 0,
+        "y": 22,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "travel-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}",
+          "legendFormat": "{{mode}}",
+          "instant": false,
+          "range": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 18,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": true,
+            "axisBorderShow": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*traditional.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*code.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 23,
+      "type": "timeseries",
+      "title": "Latency over time",
+      "gridPos": {
+        "x": 12,
+        "y": 22,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "travel-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"latencyMs\"} / 1000",
+          "legendFormat": "{{mode}}",
+          "instant": false,
+          "range": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 18,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": true,
+            "axisBorderShow": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*traditional.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*code.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 26,
+      "type": "timeseries",
+      "title": "Traffic over time",
+      "gridPos": {
+        "x": 0,
+        "y": 30,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "travel-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (mode) (agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=~\"initialDefinitionBytes|intermediateBytes\"})",
+          "legendFormat": "{{mode}}",
+          "instant": false,
+          "range": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 18,
+            "gradientMode": "opacity",
+            "showPoints": "auto",
+            "pointSize": 5,
+            "spanNulls": true,
+            "axisBorderShow": false
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*traditional.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*code.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 24,
+      "type": "bargauge",
+      "title": "Mode comparison",
+      "gridPos": {
+        "x": 0,
+        "y": 38,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "travel-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}",
+          "legendFormat": "input tokens \u00b7 {{mode}}",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        },
+        {
+          "refId": "B",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"outputTokens\"}",
+          "legendFormat": "output tokens \u00b7 {{mode}}",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        },
+        {
+          "refId": "C",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}",
+          "legendFormat": "API requests \u00b7 {{mode}}",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        },
+        {
+          "refId": "D",
+          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}",
+          "legendFormat": "tool calls \u00b7 {{mode}}",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "travel-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*traditional.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*code.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "gradient",
+        "showUnfilled": true,
+        "valueMode": "color",
+        "namePlacement": "auto",
+        "sizing": "auto"
+      }
     },
     {
       "id": 13,
       "type": "table",
-      "title": "Complete measurements \u00b7 original recording values",
+      "title": "Live measurements",
       "gridPos": {
         "x": 0,
-        "y": 14,
+        "y": 46,
         "w": 24,
         "h": 9
       },
@@ -1152,7 +1716,7 @@
             "renameByName": {
               "mode": "Execution mode",
               "metric": "Measurement",
-              "Value": "Recorded value"
+              "Value": "Value"
             },
             "indexByName": {
               "metric": 0,
@@ -1177,28 +1741,13 @@
         },
         "overrides": []
       }
-    },
-    {
-      "id": 14,
-      "type": "text",
-      "title": "How to read this dashboard",
-      "gridPos": {
-        "x": 0,
-        "y": 23,
-        "w": 24,
-        "h": 3
-      },
-      "options": {
-        "mode": "markdown",
-        "content": "**Genuine recorded execution \u2014 not a live model run.** Amber: Traditional MCP. Purple: Code Mode. Values come from the original saved traces, including failures, retries and provider queue waits. Initial schema tokens are estimated using UTF-8 bytes \u00f7 4; input/output usage is provider-reported where available. Cost is absent when pricing is not configured. Prometheus scrape time is dashboard refresh time, not the original execution timestamp."
-      }
     }
   ],
   "templating": {
     "list": [
       {
         "name": "recording",
-        "label": "Genuine recording",
+        "label": "Run",
         "type": "query",
         "datasource": {
           "type": "prometheus",
@@ -1215,11 +1764,14 @@
         "current": {
           "text": "5ea9dc58-41b9-4478-b413-016051667784",
           "value": "5ea9dc58-41b9-4478-b413-016051667784"
-        }
+        },
+        "hide": 2
       }
     ]
   },
   "annotations": {
     "list": []
-  }
+  },
+  "liveNow": true,
+  "graphTooltip": 1
 }

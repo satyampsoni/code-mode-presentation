@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Activity, ExternalLink, Loader2, RefreshCw } from "lucide-react";
+import { ExternalLink, Loader2, RefreshCw } from "lucide-react";
 export default function GrafanaDashboard({
   recordingId,
 }: {
@@ -26,23 +26,21 @@ export default function GrafanaDashboard({
       clearInterval(timer);
     };
   }, [attempt]);
-  const url = `http://localhost:3300/d/travel-agent-demo/nitrostack-recorded-agent-execution?orgId=1&theme=light&kiosk&refresh=2s&var-recording=${encodeURIComponent(recordingId)}`;
+  const url = `http://localhost:3300/d/travel-agent-demo?orgId=1&theme=dark&kiosk&refresh=2s&var-recording=${encodeURIComponent(recordingId)}`;
   return (
     <section
       className="grafana-dashboard"
-      aria-label="Embedded Grafana recorded execution dashboard"
+      aria-label="Embedded Grafana live execution dashboard"
     >
       <header>
         <div>
-          <span className="eyebrow">
-            GRAFANA + PROMETHEUS · GENUINE RECORDINGS
-          </span>
-          <h3>Recorded execution, fully observable.</h3>
+          <span className="eyebrow">GRAFANA · PROMETHEUS</span>
+          <h3>Live agent execution</h3>
         </div>
         <div>
           <span className={`grafana-connection ${ready ? "ready" : ""}`}>
             <i />
-            {ready ? "Grafana connected" : "Connecting to Grafana"}
+            {ready ? "Live" : "Connecting"}
           </span>
           <a href={url} target="_blank" rel="noreferrer">
             Open Grafana
@@ -50,15 +48,10 @@ export default function GrafanaDashboard({
           </a>
         </div>
       </header>
-      <p>
-        Original recorded measurements for both execution modes. Provider token
-        usage, tool calls, retries, latency and intermediate data are exposed
-        through Prometheus.
-      </p>
       {ready && recordingId ? (
         <iframe
           key={recordingId}
-          title="Grafana: Traditional MCP and Code Mode recorded measurements"
+          title="Grafana: Traditional MCP and Code Mode live measurements"
           src={url}
           loading="lazy"
         />
@@ -67,7 +60,7 @@ export default function GrafanaDashboard({
           <Loader2 size={24} className="spinning" />
           <strong>
             {ready
-              ? "Select a genuine recording to load both modes."
+              ? "Waiting for live metrics."
               : "Waiting for the local Grafana instance."}
           </strong>
           <span>Start Docker Desktop and run:</span>
@@ -78,11 +71,6 @@ export default function GrafanaDashboard({
           </button>
         </div>
       )}
-      <footer>
-        Recorded values are preserved from the saved trace. Scrape timestamps
-        represent dashboard refresh time. Estimates and provider waits remain
-        labeled.
-      </footer>
     </section>
   );
 }

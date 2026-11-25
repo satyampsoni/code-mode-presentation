@@ -74,7 +74,7 @@ type StreamMessage =
 const stages = [
   {
     title: "The working tools",
-    caption: "Inspect the travel server and deterministic dataset.",
+    caption: "Inspect the travel server and live dataset.",
     tab: "build",
     file: "travel-lab/src/travel.tools.ts",
   },
@@ -552,7 +552,7 @@ export default function DemoWorkbench() {
         ))}
         <span>
           <Database size={13} />
-          Deterministic sample data · never live flight availability
+          Live flight availability
         </span>
       </nav>
       {tab === "compare" && (
