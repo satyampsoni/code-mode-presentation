@@ -1,0 +1,11 @@
+apiVersion: 1
+providers:
+  - name: Travel agent comparison
+    orgId: 1
+    folder: NitroStack
+    type: file
+    disableDeletion: true
+    updateIntervalSeconds: 5
+    allowUiUpdates: false
+    options:
+      path: /etc/grafana/dashboards

@@ -1,0 +1,45 @@
+name: codemode-observability
+services:
+  metrics:
+    image: busybox:1.37.0
+    command: ["httpd", "-f", "-p", "8080", "-h", "/www"]
+    volumes:
+      - ./metrics:/www:ro
+    read_only: true
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v3.8.0
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.retention.time=1d", "--storage.tsdb.path=/prometheus", "--web.enable-lifecycle"]
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    tmpfs:
+      - /prometheus:rw,size=256m,uid=65534,gid=65534,mode=0755
+    ports:
+      - "127.0.0.1:9095:9090"
+    depends_on: [metrics]
+    restart: unless-stopped
+  grafana:
+    image: grafana/grafana:12.3.0
+    environment:
+      GF_SERVER_ROOT_URL: "http://localhost:3300"
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_SECURITY_ALLOW_EMBEDDING: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Viewer"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_AUTH_BASIC_ENABLED: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+      GF_USERS_DEFAULT_THEME: "light"
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/dashboards/travel-demo.json
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+    tmpfs:
+      - /var/lib/grafana:rw,size=256m,uid=472,gid=472,mode=0755
+    ports:
+      - "127.0.0.1:3300:3000"
+    depends_on: [prometheus]
+    restart: unless-stopped
