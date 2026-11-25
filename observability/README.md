@@ -2,7 +2,7 @@
 
 This is an actual Grafana instance backed by Prometheus, embedded at the bottom of `/demo`.
 
-Start Docker Desktop, then run `npm run demo` from the app directory. This builds the travel lab and production presentation, exports saved measurements, starts the Docker services and starts the app and agent. The production server keeps the presentation stable while telemetry updates. Existing genuine recordings replay without provider credentials or new model calls. A live execution requires the provider configuration described in `travel-lab/README.md`.
+Start Docker Desktop, then run `npm run demo` from the repository root. This builds the travel lab and production presentation, exports saved measurements, starts the Docker services and starts the app and agent. The production server keeps the presentation stable while telemetry updates. Existing genuine recordings replay without provider credentials or new model calls. A live execution requires the provider configuration described in `travel-lab/README.md`.
 
 Endpoints:
 

@@ -7,7 +7,6 @@ An interactive, local Next.js presentation by Satyam Soni: **Solving the Agent I
 Requires Node.js 20.9+.
 
 ```sh
-cd codemode-talk
 npm install
 npm run dev
 ```

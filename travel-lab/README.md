@@ -6,7 +6,7 @@ All travel data is deterministic sample data. Nothing here books tickets or read
 
 ## Install and launch
 
-From the `codemode-talk` directory:
+From the repository root:
 
 ```sh
 npm install
@@ -58,9 +58,9 @@ npm run demo
 The Build Mode tab reads exact working files and generates copyable commands with the absolute path to `travel-lab/dist/server.js`. The current Claude Code CLI supports:
 
 ```sh
-# Run these from codemode-talk; replace the absolute path with your checkout.
-claude mcp add --transport stdio --env TRAVEL_MODE=traditional --env TRAVEL_CATALOG_SIZE=10 travel-traditional -- node /ABSOLUTE/PATH/codemode-talk/travel-lab/dist/server.js
-claude mcp add --transport stdio --env TRAVEL_MODE=code --env TRAVEL_CATALOG_SIZE=10 travel-code -- node /ABSOLUTE/PATH/codemode-talk/travel-lab/dist/server.js
+# Run these from the repository root; replace the absolute path with your checkout.
+claude mcp add --transport stdio --env TRAVEL_MODE=traditional --env TRAVEL_CATALOG_SIZE=10 travel-traditional -- node /ABSOLUTE/PATH/travel-lab/dist/server.js
+claude mcp add --transport stdio --env TRAVEL_MODE=code --env TRAVEL_CATALOG_SIZE=10 travel-code -- node /ABSOLUTE/PATH/travel-lab/dist/server.js
 claude mcp list
 ```
 
