@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: code-mode-grafana
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerContext: ./observability/render
+    dockerfilePath: ./observability/render/Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: GOMEMLIMIT
+        value: 128MiB
+      - key: GOMAXPROCS
+        value: "2"
+      - key: GF_UNIFIED_ALERTING_ENABLED
+        value: "false"

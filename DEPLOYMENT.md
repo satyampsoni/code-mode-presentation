@@ -49,7 +49,7 @@ Vercel does not run this repository's Docker Compose services. To embed an actua
 
 A separately hosted live agent can be connected with `DEMO_AGENT_URL` (HTTPS) and `DEMO_AGENT_TOKEN` in Vercel's server-side environment settings. The proxy sends the token as a Bearer authorization header. That backend must enforce authentication and its own request limits. Keep provider credentials on the backend. The bundled local agent binds to loopback by default; do not expose it directly as an unauthenticated public service.
 
-No external backend or Grafana deployment is created by this configuration. Choose and configure those services separately if full hosted live execution is required.
+No external backend or Grafana deployment is created by the Vercel configuration. The repository's `render.yaml` defines a separate free Grafana service using the [prepared Docker context](observability/render/README.md). It serves genuine recorded measurements and reconstructs them after Render sleeps or restarts. A hosted live agent remains a separate service.
 
 ## Validation and references
 
