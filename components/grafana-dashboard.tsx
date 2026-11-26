@@ -44,7 +44,7 @@ export default function GrafanaDashboard({
   return (
     <section
       className="grafana-dashboard"
-      aria-label="Embedded Grafana live execution dashboard"
+      aria-label="Embedded Grafana execution dashboard"
     >
       <header>
         <div>
@@ -75,8 +75,9 @@ export default function GrafanaDashboard({
           <strong>
             {ready
               ? "Waiting for live metrics."
-              : hosted ? "Grafana is not connected to this deployment." : "Waiting for the local Grafana instance."}
+              : hosted ? url ? "Waking up the Grafana dashboard." : "Grafana is not connected to this deployment." : "Waiting for the local Grafana instance."}
           </strong>
+          {hosted && url && <span>The free hosted instance may take about a minute to start. Connection checks continue automatically.</span>}
           {!hosted && <><span>Start Docker Desktop and run:</span><code>npm run observability:start</code></>}
           <button onClick={() => setAttempt((a) => a + 1)}>
             <RefreshCw size={14} />

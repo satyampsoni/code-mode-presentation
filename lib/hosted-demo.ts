@@ -60,7 +60,9 @@ export async function hostedDemo(request: Request, endpoint: string): Promise<Re
     const dashboard = process.env.GRAFANA_PUBLIC_URL || "";
     let grafanaReady = false;
     if (dashboard.startsWith("https://")) {
-      grafanaReady = await fetch(new URL("/api/health", dashboard), { signal: AbortSignal.timeout(1200), cache: "no-store" }).then((response) => response.ok).catch(() => false);
+      grafanaReady = await fetch(new URL("/api/health", dashboard), { signal: AbortSignal.timeout(4000), cache: "no-store" })
+        .then(async (response) => response.ok && (await response.json()).database === "ok")
+        .catch(() => false);
     }
     return json({
       ready: true, executionMode: "recorded", hosting: "vercel",

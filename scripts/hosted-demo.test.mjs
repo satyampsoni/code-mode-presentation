@@ -14,6 +14,24 @@ test("hosted status lists complete pairs without enabling provider calls", async
   assert.ok(status.recordings.length > 0);
   assert.ok(status.recordings.every((r) => r.modes.includes("traditional") && r.modes.includes("code")));
 });
+test("Grafana readiness rejects a host startup page and requires a healthy database", async (t) => {
+  const previous = process.env.GRAFANA_PUBLIC_URL;
+  process.env.GRAFANA_PUBLIC_URL = "https://grafana.example.test/d/travel-agent-demo";
+  try {
+    for (const [body, expected] of [["<html>Starting service</html>", false], [JSON.stringify({ database: "failing" }), false], [JSON.stringify({ database: "ok" }), true]]) {
+      t.mock.method(globalThis, "fetch", async (url) => {
+        assert.equal(String(url), "https://grafana.example.test/api/health");
+        return new Response(body);
+      });
+      const status = await (await hostedDemo(request("status"), "status")).json();
+      assert.equal(status.grafana.ready, expected);
+      t.mock.restoreAll();
+    }
+  } finally {
+    if (previous === undefined) delete process.env.GRAFANA_PUBLIC_URL;
+    else process.env.GRAFANA_PUBLIC_URL = previous;
+  }
+});
 test("hosted replay rejects malformed, missing, and invalid-mode requests", async () => {
   for (const data of [{ id: "../../.env.local" }, { id: "5ea9dc58-41b9-4478-b413-016051667784", mode: "fake" }]) {
     assert.equal((await hostedDemo(request("replay", data), "replay")).status, 400);
