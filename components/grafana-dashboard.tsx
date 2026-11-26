@@ -48,12 +48,11 @@ export default function GrafanaDashboard({
     >
       <header>
         <div>
-          <span className="eyebrow">GRAFANA · PROMETHEUS</span>
+          <span className="eyebrow">Grafana and Prometheus</span>
           <h3>{hosted ? "Recorded agent execution" : "Live agent execution"}</h3>
         </div>
         <div>
           <span className={`grafana-connection ${ready ? "ready" : ""}`}>
-            <i />
             {ready ? hosted ? "Connected" : "Live" : hosted ? "Not connected" : "Connecting"}
           </span>
           {url && <a href={url} target="_blank" rel="noreferrer">

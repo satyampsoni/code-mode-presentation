@@ -75,7 +75,7 @@ type StreamMessage =
 const stages = [
   {
     title: "The working tools",
-    caption: "Inspect the travel server and live dataset.",
+    caption: "Inspect the travel server and sample data",
     tab: "build",
     file: "travel-lab/src/travel.tools.ts",
   },
@@ -344,33 +344,28 @@ export default function DemoWorkbench() {
   return (
     <main className="lab-shell">
       <header className="lab-header">
-        <a className="brand nitrostack-lab-brand" href="/?slide=14">
+        <a className="brand nitrostack-lab-brand" href="/?slide=15">
           <img src="/nitrostack-logo.png" alt="" width={25} height={25} />
           <span>
             NitroStack <span className="brand-light"> / execution lab</span>
           </span>
         </a>
         <div className="lab-header-center">
-          <span className="lab-version">NITROSTACK 1.1.3</span>
-          <span className={`connection-indicator ${status ? "online" : ""}`} />
+          <span className="lab-version">NitroStack 1.1.3</span>
           <span>
             {status
               ? status.model || "Provider not configured"
               : "Connecting to local agent"}
           </span>
         </div>
-        <a className="back-to-talk" href="/?slide=14">
+        <a className="back-to-talk" href="/?slide=15">
           <ArrowLeft size={14} /> Back to the talk
         </a>
       </header>
       <section className="lab-intro">
         <div>
-          <span className="eyebrow">
-            SAME CAPABILITIES. DIFFERENT INTERFACE.
-          </span>
-          <h1>
-            From tool calls to <span>code.</span>
-          </h1>
+          <h1>Tool calling and Code Mode</h1>
+          <p className="lab-dek">Compare the same request against the same travel tools</p>
         </div>
         <div className="lab-mode-switch">
           <button
@@ -402,10 +397,10 @@ export default function DemoWorkbench() {
         <div className="replay-banner">
           <RotateCcw size={18} />
           <div>
-            <strong>RECORDED REPLAY · NOT LIVE</strong>
+            <strong>Recorded replay · not live</strong>
             <span>
               {replayInfo
-                ? `Genuine execution recorded ${new Date(replayInfo.recordedAt).toLocaleString()} · accelerated playback`
+                ? `Genuine execution recorded ${new Date(replayInfo.recordedAt).toLocaleString()}. Accelerated playback.`
                 : "Choose a previously recorded genuine execution. Replay makes no model requests."}
             </span>
           </div>
@@ -427,8 +422,8 @@ export default function DemoWorkbench() {
               )
               .map((r) => (
                 <option value={r.id} key={r.id}>
-                  {new Date(r.recordedAt).toLocaleString()} · {r.catalogSize}{" "}
-                  tools · {r.modes.join(" + ")}
+                  {new Date(r.recordedAt).toLocaleString()}, {r.catalogSize}{" "}
+                  tools, {r.modes.join(" + ")}
                 </option>
               ))}
           </select>
@@ -437,7 +432,7 @@ export default function DemoWorkbench() {
       <section className="lab-prompt">
         <div className="prompt-field">
           <label htmlFor="agent-prompt">
-            <span className="prompt-symbol">❯</span> AGENT REQUEST{" "}
+            Agent request{" "}
             <span>Editable natural language</span>
           </label>
           <textarea
@@ -451,7 +446,7 @@ export default function DemoWorkbench() {
         </div>
         <div className="lab-run-controls">
           <label>
-            TOOL CATALOG
+            Tool catalog
             <select
               aria-label="Tool catalog size"
               value={catalog}
@@ -555,7 +550,7 @@ export default function DemoWorkbench() {
         ))}
         <span>
           <Database size={13} />
-          Live flight availability
+          Deterministic sample flight data
         </span>
       </nav>
       {tab === "compare" && (
@@ -597,9 +592,9 @@ export default function DemoWorkbench() {
           <div className="architecture-bottom">
             <div>
               <ShieldCheck size={21} />
-              <h3>A real boundary. A bounded runtime.</h3>
+              <h3>QuickJS execution limits</h3>
               <p>
-                QuickJS WebAssembly · 64 MB heap · 2 second timeout · 40 tool
+                QuickJS WebAssembly, 64 MB heap, 2 second timeout, 40 tool
                 calls per script
               </p>
               <span>
@@ -616,7 +611,7 @@ export default function DemoWorkbench() {
               ) : (
                 <ShieldCheck size={17} />
               )}
-              Test actual execution timeout
+              Test execution timeout
             </button>
           </div>
           {security && (
@@ -625,11 +620,11 @@ export default function DemoWorkbench() {
             >
               <strong>
                 {security.blocked
-                  ? "BLOCKED BY THE SANDBOX"
-                  : "UNEXPECTED RESULT — inspect response"}
+                  ? "Blocked by the sandbox"
+                  : "Unexpected result. Inspect the response."}
               </strong>
               <span>
-                {String(security.durationMs)} ms wall time · configured timeout{" "}
+                {String(security.durationMs)} ms wall time. Configured timeout{" "}
                 {String(security.timeoutMs)} ms
               </span>
               <code>while (true) {"{}"}</code>
@@ -637,7 +632,7 @@ export default function DemoWorkbench() {
             </div>
           )}
           <div className="architecture-events">
-            <span className="eyebrow">LIVE EVENT INSPECTOR</span>
+            <span className="eyebrow">Recent execution events</span>
             {modes
               .flatMap((m) => events[m].slice(-5))
               .map((e) => (
@@ -659,7 +654,7 @@ export default function DemoWorkbench() {
       {tab === "build" && (
         <div className="build-workspace">
           <aside>
-            <span className="eyebrow">THE WORKING PROJECT</span>
+            <span className="eyebrow">The working project</span>
             {source?.files.map((f) => (
               <button
                 key={f.path}
@@ -721,7 +716,7 @@ export default function DemoWorkbench() {
                 {activeFile.endsWith("app.module.ts") && (
                   <div className="config-diff">
                     <div>
-                      <span className="amber-text">TRADITIONAL MCP</span>
+                      <span className="amber-text">Tool Calling</span>
                       <pre>
                         TRAVEL_MODE=traditional
                         <br />
@@ -729,7 +724,7 @@ export default function DemoWorkbench() {
                       </pre>
                     </div>
                     <div>
-                      <span className="purple-text">CODE MODE</span>
+                      <span className="purple-text">Code Mode</span>
                       <pre>
                         TRAVEL_MODE=code
                         <br />
@@ -739,7 +734,7 @@ export default function DemoWorkbench() {
                   </div>
                 )}
                 <div className="build-commands">
-                  <span className="eyebrow">COPYABLE WALKTHROUGH COMMANDS</span>
+                  <span className="eyebrow">Walkthrough commands</span>
                   {Object.entries(source.commands).map(([name, command]) => (
                     <div key={name}>
                       <span>{name}</span>
@@ -764,7 +759,7 @@ export default function DemoWorkbench() {
       )}
       <footer className="presenter-stages">
         <div>
-          <span className="stage-caption">5 MINUTE WALKTHROUGH</span>
+          <span className="stage-caption">Five-minute walkthrough</span>
           <div>
             {stages.map((s, i) => (
               <button
@@ -784,7 +779,7 @@ export default function DemoWorkbench() {
         </section>
         <span className="stage-key-hint">
           <kbd>[</kbd>
-          <kbd>]</kbd> change stage · <kbd>1–5</kbd> jump
+          <kbd>]</kbd> change stage, <kbd>1–5</kbd> jump
         </span>
         <button
           disabled={stage === 4}
@@ -812,7 +807,7 @@ export default function DemoWorkbench() {
             >
               <div>
                 <span className="eyebrow">
-                  {inspected.mode.toUpperCase()} · {inspected.type}
+                  {inspected.mode === "code" ? "Code Mode" : "Tool Calling"}. {inspected.type}
                 </span>
                 <button
                   aria-label="Close event inspector"
@@ -825,7 +820,7 @@ export default function DemoWorkbench() {
               <p>
                 {inspected.timestamp}
                 {inspected.durationMs !== undefined
-                  ? ` · ${inspected.durationMs.toFixed(1)} ms`
+                  ? `, ${inspected.durationMs.toFixed(1)} ms`
                   : ""}
               </p>
               <pre>{JSON.stringify(inspected.payload, null, 2)}</pre>
@@ -889,8 +884,8 @@ function ExecutionPanel({
           <h2>{mode === "traditional" ? "Tool Calling" : "Code Mode"}</h2>
           <span>
             {mode === "traditional"
-              ? "Individual tools. Model-driven orchestration."
-              : "Discover. Generate. Execute in the sandbox."}
+              ? "The model selects each tool call"
+              : "The model writes JavaScript for QuickJS"}
           </span>
         </div>
         {replay && (
@@ -941,8 +936,8 @@ function ExecutionPanel({
             </div>
             <h3>
               {mode === "traditional"
-                ? "Every tool, in context."
-                : "One programmable interface."}
+                ? "Individual tool calls"
+                : "Tool calls inside JavaScript"}
             </h3>
             <p>
               {mode === "traditional"
@@ -981,7 +976,7 @@ function ExecutionPanel({
                     <span className="event-content">
                       <span className="event-category">
                         {event.type === "model.request"
-                          ? `MODEL INTERACTION ${event.metrics?.modelRequests || 1}`
+                          ? `Model interaction ${event.metrics?.modelRequests || 1}`
                           : event.type}
                       </span>
                       <strong>{event.name}</strong>
@@ -999,7 +994,7 @@ function ExecutionPanel({
               <div className="generated-code">
                 <div>
                   <Code2 size={14} />
-                  <strong>ACTUAL MODEL-GENERATED JAVASCRIPT</strong>
+                  <strong>Model-generated JavaScript</strong>
                   <span>ES2020</span>
                 </div>
                 <CodeEditor code={code.code} title="generated-workflow.js" />
@@ -1013,7 +1008,7 @@ function ExecutionPanel({
               <div className="final-answer">
                 <span>
                   <CheckCheck size={16} />
-                  {replay ? "RECORDED RESULT" : "FINAL RESULT"} · SAMPLE DATA
+                  {replay ? "Recorded result. Sample data." : "Final result. Sample data."}
                 </span>
                 {Array.isArray(answer?.options) && answer.options.length > 0 ? (
                   <>
@@ -1024,7 +1019,7 @@ function ExecutionPanel({
                           <div>
                             <strong>{f.airline || f.id || f.flightId}</strong>
                             <span>
-                              {f.id || f.flightId} · {f.checkedKg ?? "—"} kg
+                              {f.id || f.flightId}, {f.checkedKg ?? "—"} kg
                               checked
                             </span>
                           </div>
@@ -1058,13 +1053,13 @@ function ExecutionPanel({
       </div>
       <footer>
         <span>
-          {replay ? "REPLAY" : hasStarted ? "LIVE TRACE" : "AWAITING EXECUTION"}
+          {replay ? "Replay" : hasStarted ? "Live trace" : "Awaiting execution"}
           {!following && hasStarted && (
             <button onClick={() => setFollowing(true)}>Jump to latest</button>
           )}
         </span>
         <span>
-          {events.length} events <i />{" "}
+          {events.length} events,{" "}
           {number(
             trace?.metrics.toolCalls ??
               events.filter((e) => e.type === "tool.start").length,
@@ -1113,9 +1108,9 @@ function MetricsComparison({
       <div className="metrics-dashboard-heading">
         <div>
           <span className="eyebrow">
-            {replay ? "RECORDED MEASUREMENTS" : "MEASURE THE DIFFERENCE"}
+            {replay ? "Recorded measurements" : "Measured on this run"}
           </span>
-          <h3>Same task. Actual numbers.</h3>
+          <h3>Execution measurements</h3>
         </div>
         <p>
           Provider usage when available. Definition counts use UTF-8 bytes ÷ 4.
@@ -1125,7 +1120,7 @@ function MetricsComparison({
       </div>
       <div className="metric-comparison-table">
         <div className="metric-table-head">
-          <span>EXECUTION METRIC</span>
+          <span>Execution metric</span>
           <span>
             <i className="event-dot traditional" />
             Tool Calling
@@ -1134,7 +1129,7 @@ function MetricsComparison({
             <i className="event-dot code" />
             Code Mode
           </span>
-          <span>CODE MODE VS TRADITIONAL</span>
+          <span>Code Mode compared with Tool Calling</span>
         </div>
         {metricRows.map((row) => {
           const a = metrics.traditional?.[row.key] as number | undefined | null,
@@ -1216,7 +1211,7 @@ function LiveArchitecture({
         ]
       : [
           ["Language model", "slate"],
-          ["search · get_schema · execute", "blue"],
+          ["search, get_schema, execute", "blue"],
           ["QuickJS sandbox", "purple"],
           ["Authorized MCP tools", "green"],
         ];
@@ -1262,7 +1257,7 @@ function LiveArchitecture({
                     key={latest.id}
                     r="3"
                     cx="45"
-                    fill={mode === "code" ? "#8b5cf6" : "#d97706"}
+                    fill={mode === "code" ? "#111111" : "#8a8a8a"}
                     initial={{ cy: 0, opacity: 1 }}
                     animate={{ cy: 30, opacity: 0 }}
                     transition={{ duration: 0.7 }}
@@ -1274,10 +1269,10 @@ function LiveArchitecture({
         ))}
       </div>
       <div className="architecture-latest">
-        <span>LATEST EVENT</span>
+        <span>Latest event</span>
         <strong>
           {latest
-            ? `${latest.type} · ${latest.name}`
+            ? `${latest.type}, ${latest.name}`
             : "Run a workflow to see the data flow."}
         </strong>
       </div>
