@@ -14,21 +14,28 @@ export const slides = [
       "Anthropic introduced MCP in November 2024 to standardize connections between AI applications and external systems. Think of it as giving agents hands. Tools perform actions, resources expose data, and prompts provide reusable instructions. Today we focus on tools.",
   },
   {
-    title: "MCP works. Until we scale.",
+    title: "MCP at catalog scale",
     section: "The scaling problem",
     duration: 60,
     notes:
       "Walk through tools/list. Clients make tool specifications available to the model; exact loading strategies differ by client. Five travel tools are easy to reason about. What happens when an enterprise exposes thousands of capabilities? Press D to open the demo handoff and switch to your prepared Claude Code terminal.",
   },
   {
-    title: "The context window problem",
+    title: "Tool definitions use context",
     section: "The scaling problem",
     duration: 75,
     notes:
       "These numbers are illustrative, not a measurement of any specific model. We assume 200k capacity, 20k conversation and 200 tokens per tool. Select 1,000 tools: definitions alone consume 200k tokens. Cost and accuracy depend on model, caching and tool selection. Dynamically enabling tools helps, but external selection can constrain agent autonomy. Can we reduce context without reducing capabilities?",
   },
   {
-    title: "What if agents could write code instead?",
+    title: "Three problems at catalog scale",
+    section: "The scaling problem",
+    duration: 40,
+    notes:
+      "Name the three consequences before changing the interface. High inference cost: every extra definition is billed as input. Potential accuracy degradation: the relevant tool is harder to choose. Context overflow: definitions can fill the window before the task begins.",
+  },
+  {
+    title: "Let the agent write the tool calls",
     section: "A different interface",
     duration: 90,
     notes:
@@ -69,21 +76,21 @@ export const slides = [
       "Three supplied screenshots together: Ravve Jay reports being impressed after trying Claude Code's Code Mode; Dheeraj Agrawal shares his own cost comparison; Kenton Varda reflects on adoption across harnesses. User-reported savings are specific to their examples.",
   },
   {
-    title: "Code is a better interface\nfor complex workflows",
+    title: "A flight-search workflow in code",
     section: "Under the hood",
     duration: 100,
     notes:
       "Play the execution trace. Search flights, sort by price, fetch baggage for the selected flight, and serialize the result. This is illustrative execution, not a real airline integration. Code provides familiar control flow: loops, conditions, parallel execution, filters, transforms and dependent operations. The model generates logic; the runtime performs computation.",
   },
   {
-    title: "Discover capabilities.\nDon’t load everything.",
+    title: "Discover tools and load selected schemas",
     section: "Under the hood",
     duration: 90,
     notes:
       "These are illustrative interface names, not mandated MCP methods. Search locates candidates; get_schema loads only needed contracts; execute runs the generated workflow. Progressive discovery supports broad catalogs while controlling context. Search quality and authorization filtering still matter.",
   },
   {
-    title: "Can we trust AI-generated code?",
+    title: "Bound the execution of generated code",
     section: "The trust boundary",
     duration: 90,
     notes:
@@ -104,7 +111,7 @@ export const slides = [
       "Live demo agenda (4m45s): 0:00–0:45 scaffold the prepared NitroStack project; 0:45–1:30 enable Code Mode using the version-specific configuration; 1:30–2:15 connect Claude Code to the MCP server; 2:15–3:45 run the flight and baggage workflow; 3:45–4:45 compare discovery, model turns and intermediate data. The /demo route contains the working NitroStack 1.1.3 travel lab. Use the Build Mode tab and five-minute stage shortcuts to explain the actual files. Live runs use the configured OpenAI-compatible provider; genuine saved traces are available in explicitly labeled replay mode.",
   },
   {
-    title: "Enterprise AI needs both.",
+    title: "MCP and Code Mode work together",
     section: "The takeaway",
     duration: 15,
     notes:

@@ -221,7 +221,7 @@ export default function Presentation() {
           {index === 0 ? "" : slides[index].section}
         </span>
         <div className="topbar-right">
-          <span className="edition">ENTERPRISE AI · TECHNICAL SESSION</span>
+          <span className="edition">Enterprise AI, technical session</span>
           <button
             className="shortcut-help"
             title="Keyboard shortcuts"
@@ -247,7 +247,7 @@ export default function Presentation() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                {index > 0 && index !== 5 && index !== 8 && index !== 9 && index < slides.length - 1 && (
+                {index > 0 && index !== 6 && index !== 9 && index !== 10 && index < slides.length - 1 && (
                   <header className="slide-header">
                     <div className="slide-eyebrow">
                       <span>{slide.section}</span>
@@ -269,7 +269,7 @@ export default function Presentation() {
         </div>
         {presenter && (
           <aside className="presenter-notes">
-            <span className="eyebrow">PRESENTER VIEW · PRIVATE WINDOW</span>
+            <span className="eyebrow">Presenter view, private window</span>
             <div className="presenter-clock">
               <strong className={elapsed > 1200 ? "red-text" : ""}>
                 {format(elapsed)}
@@ -380,8 +380,8 @@ export default function Presentation() {
         >
           <div className="overview-heading">
             <div>
-              <span className="eyebrow">THE COMPLETE TALK</span>
-              <h2>Choose a chapter.</h2>
+              <span className="eyebrow">The complete talk</span>
+              <h2>Slide overview</h2>
             </div>
             <button
               onClick={() => setOverview(false)}
@@ -399,7 +399,7 @@ export default function Presentation() {
               >
                 <span className="overview-index">
                   {String(i).padStart(2, "0")}
-                  <span>{s.duration ? format(s.duration) : "INTRO"}</span>
+                  <span>{s.duration ? format(s.duration) : "Intro"}</span>
                 </span>
                 <div className={`overview-visual ov-${i % 4}`}>
                   <Braces size={32} />
@@ -428,7 +428,7 @@ export default function Presentation() {
             >
               <X />
             </button>
-            <h3>Make it your stage.</h3>
+            <h3>Presentation controls</h3>
             <p>Keyboard shortcuts</p>
             {[
               ["← / → / Space", "Navigate slides"],

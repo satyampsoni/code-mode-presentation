@@ -4,19 +4,12 @@ import {
   ArrowUpRight,
   Braces,
   Check,
-  CircleDollarSign,
-  Code2,
   Database,
   Github,
   Layers,
-  LockKeyhole,
   Play,
   Search,
-  ShieldCheck,
   Slack,
-  Sparkles,
-  Timer,
-  TriangleAlert,
   X,
   Zap,
 } from "lucide-react";
@@ -57,7 +50,7 @@ const adoptionScreenshots = [
   },
 ];
 export function SlideContent({ index }: { index: number }) {
-  if (index === 8) {
+  if (index === 9) {
     const screenshot = adoptionScreenshots[0];
     return (
       <figure className="announcement-slide">
@@ -72,7 +65,7 @@ export function SlideContent({ index }: { index: number }) {
       </figure>
     );
   }
-  if (index === 9) return <AdoptionGallery />;
+  if (index === 10) return <AdoptionGallery />;
   if (index === 0)
     return (
       <div className="title-slide title-centered">
@@ -98,12 +91,12 @@ export function SlideContent({ index }: { index: number }) {
   if (index === 1)
     return (
       <>
-        <p className="lede">Intelligence is only useful when it can act.</p>
+        <p className="lede">MCP connects models to tools, data, and reusable prompts</p>
         <div className="hands-diagram">
           <Reveal>
             <div className="isolated">
               <Node title="Language model" sub="Reasoning & intent" />
-              <span className="boundary-label">THE MODEL</span>
+              <span className="boundary-label">The model</span>
             </div>
           </Reveal>
           <Connector />
@@ -139,9 +132,9 @@ export function SlideContent({ index }: { index: number }) {
         </div>
         <div className="three-primitives">
           {[
-            [Zap, "Tools", "Perform actions."],
-            [Database, "Resources", "Access data."],
-            [Braces, "Prompts", "Reusable instructions."],
+            [Zap, "Tools", "Perform actions"],
+            [Database, "Resources", "Access data"],
+            [Braces, "Prompts", "Reusable instructions"],
           ].map(([Icon, title, copy]) => (
             <div key={String(title)}>
               <span className={title === "Tools" ? "blue-text" : ""}>
@@ -169,7 +162,7 @@ export function SlideContent({ index }: { index: number }) {
                 <span className="terminal-green">❯</span> Discover the available
                 travel tools
               </p>
-              <p className="terminal-muted">MCP request · tools/list</p>
+              <p className="terminal-muted">MCP request, tools/list</p>
               {[
                 "search_flights",
                 "compare_fares",
@@ -202,16 +195,16 @@ export function SlideContent({ index }: { index: number }) {
                 <span>
                   {
                     [
-                      "A helpful assistant",
-                      "A growing platform",
-                      "An enterprise catalog",
+                      "One task",
+                      "Several services",
+                      "Enterprise catalog",
                     ][i]
                   }
                 </span>
               </div>
               <ToolGrid
                 count={n === 1000 ? 200 : n}
-                tone={i === 0 ? "green" : i === 1 ? "slate" : "amber"}
+                tone={i === 0 ? "green" : i === 1 ? "amber" : "red"}
               />
               {n === 1000 && <small>Each cell represents 5 tools</small>}
             </div>
@@ -223,7 +216,36 @@ export function SlideContent({ index }: { index: number }) {
       </>
     );
   if (index === 3) return <ContextSimulator />;
-  if (index === 5)
+  if (index === 4)
+    return (
+      <>
+        <p className="lede">Larger catalogs add context and tool-selection costs</p>
+        <ul className="problem-list">
+          <li>
+            <img src="/inference-logo.svg" alt="" width={44} height={44} />
+            <div>
+              <strong>High inference cost</strong>
+              <p>Tool definitions add input tokens; cost depends on the model and caching.</p>
+            </div>
+          </li>
+          <li>
+            <img src="/accuracy-logo.svg" alt="" width={44} height={44} />
+            <div>
+              <strong>Potential accuracy degradation</strong>
+              <p>A larger catalog can make the relevant tool harder to select.</p>
+            </div>
+          </li>
+          <li>
+            <img src="/overflow-logo.svg" alt="" width={44} height={44} />
+            <div>
+              <strong>Context overflow</strong>
+              <p>Definitions can fill the window before the task itself begins.</p>
+            </div>
+          </li>
+        </ul>
+      </>
+    );
+  if (index === 6)
     return (
       <figure className="announcement-slide">
         <img
@@ -237,15 +259,15 @@ export function SlideContent({ index }: { index: number }) {
         </figcaption>
       </figure>
     );
-  if (index === 4)
+  if (index === 5)
     return (
       <>
-        <p className="lede">Change the interface. Keep the capabilities.</p>
+        <p className="lede">Let the model compose calls to the same tools</p>
         <div className="comparison-panels">
           <div className="panel">
             <div className="panel-label">
               <span className="dot amber" />
-              TRADITIONAL MCP
+              Tool calling
             </div>
             <div className="fan-diagram">
               <Node title="Language model" />
@@ -260,23 +282,22 @@ export function SlideContent({ index }: { index: number }) {
                   <Reveal delay={i * 0.18} key={s}>
                     <span>
                       {s}
-                      <Braces size={17} />
                     </span>
                   </Reveal>
                 ))}
               </div>
             </div>
-            <p className="panel-caption">Every tool described to the model.</p>
+            <p className="panel-caption">Individual tool schemas in model context</p>
           </div>
           <div className="panel code-panel">
             <div className="panel-label">
               <span className="dot purple" />
-              CODE MODE
+              Code Mode
             </div>
             <div className="code-architecture">
-              <Node title="LLM" />
-              <Connector />
-              <Node title="Execute" tone="purple" icon="code" />
+              <Node title="LLM" sub="Claude" />
+              <Connector tone="blue" />
+              <Node title="Execute" tone="blue" icon="code" />
               <Connector tone="cyan" />
               <Node title="Typed SDK" tone="cyan" icon="box" />
             </div>
@@ -284,13 +305,13 @@ export function SlideContent({ index }: { index: number }) {
               <Layers size={18} /> The same underlying tools
             </div>
             <p className="panel-caption">
-              One execution interface. Programmable orchestration.
+              A script controls the sequence of tool calls
             </p>
           </div>
         </div>
         <div className="schema-transform">
           <div>
-            <span className="eyebrow">FROM SCHEMA TO INTERFACE</span>
+            <span className="eyebrow">From schema to interface</span>
             <pre className="schema-before amber-text">
               {
                 '{ "name": "search_flights",\n  "inputSchema": { "type": "object",\n    "properties": { "from": {"type":"string"},\n                    "to": {"type":"string"} } } }'
@@ -312,17 +333,17 @@ export function SlideContent({ index }: { index: number }) {
         </p>
       </>
     );
-  if (index === 6) return <ExecutionComparison />;
-  if (index === 7) return <Anatomy />;
-  if (index === 10) return <Workflow />;
-  if (index === 11) return <Discovery />;
-  if (index === 12) return <Sandbox />;
-  if (index === 13)
+  if (index === 7) return <ExecutionComparison />;
+  if (index === 8) return <Anatomy />;
+  if (index === 11) return <Workflow />;
+  if (index === 12) return <Discovery />;
+  if (index === 13) return <Sandbox />;
+  if (index === 14)
     return (
       <>
         <div className="comparison-table">
           <div className="table-row table-head">
-            <span>DIMENSION</span>
+            <span>Dimension</span>
             <span>
               <span className="dot amber" /> Tool Calling
             </span>
@@ -362,16 +383,16 @@ export function SlideContent({ index }: { index: number }) {
           with MCP.
         </p>
         <div className="closing-question">
-          How difficult is it to actually build?
+          Next: configure and run the NitroStack server
         </div>
       </>
     );
-  if (index === 14)
+  if (index === 15)
     return (
       <>
         <div className="nitro-layout">
           <div>
-            <p className="lede">The architecture, made executable.</p>
+            <p className="lede">The same travel tools, with Code Mode enabled</p>
             <div className="nitro-architecture">
               <Node title="Claude Code" sub="The agent" icon="terminal" />
               <Connector />
@@ -396,31 +417,28 @@ export function SlideContent({ index }: { index: number }) {
             </div>
           </div>
           <div className="demo-card">
-            <span className="eyebrow">LET’S BUILD IT</span>
-            <div className="demo-icon">
-              <TerminalIcon />
-            </div>
+            <span className="eyebrow">NitroStack demo</span>
+            <img className="demo-mark" src="/nitrostack-logo.png" alt="" width={36} height={36} />
             <h3>
-              Less plumbing.
+              Compare tool calling
               <br />
-              More capability.
+              with Code Mode
             </h3>
-            <p>Discover. Generate. Execute.</p>
+            <p>Discover tools, write the workflow, run it</p>
             <a href="/demo" className="primary-button">
-              <Play size={19} fill="currentColor" /> Launch Live Demo
+              <Play size={19} fill="currentColor" /> Open execution lab
             </a>
-            <span className="demo-time">04:45 · Live walkthrough</span>
+            <span className="demo-time">04:45 live walkthrough</span>
           </div>
         </div>
         <p className="footnote">
-          Conceptual integration architecture. Live demo implementation is
-          prepared separately.
+          The lab supports local live execution and genuine recorded replay.
         </p>
       </>
     );
   return (
     <div className="closing-slide">
-      <span className="eyebrow">THE TAKEAWAY</span>
+      <span className="eyebrow">The takeaway</span>
       <Reveal>
         <p>MCP gave agents hands.</p>
       </Reveal>
@@ -436,28 +454,25 @@ export function SlideContent({ index }: { index: number }) {
         </h1>
       </Reveal>
       <div className="closing-signature">
-        Satyam Soni <span>Thank you.</span>
+        Satyam Soni <span>Thank you</span>
       </div>
     </div>
   );
 }
-function TerminalIcon() {
-  return <Code2 size={42} strokeWidth={1.4} />;
-}
 function AdoptionGallery() {
   const [selected, setSelected] = useState<number | null>(null);
   const stories = [
-    { label: "First reaction", title: "“Absolutely insane” savings.", author: "Ravve Jay", detail: "After trying Code Mode in Claude Code.", className: "reaction" },
-    { label: "Reported savings", title: "34% cheaper on one task.", author: "Dheeraj Agrawal", detail: "$0.36 with Code Mode · $0.55 without", className: "cost" },
-    { label: "Industry adoption", title: "A pattern across harnesses.", author: "Kenton Varda", detail: "Reflecting on a year of Code Mode adoption.", className: "adoption" },
+    { label: "First reaction", title: "Trying Code Mode in Claude Code", author: "Ravve Jay", detail: "A developer’s report after using the feature", className: "reaction" },
+    { label: "Reported savings", title: "34% lower cost on one task", author: "Dheeraj Agrawal", detail: "$0.36 with Code Mode · $0.55 without", className: "cost" },
+    { label: "Adoption", title: "Code Mode in agent harnesses", author: "Kenton Varda", detail: "A follow-up to the original announcement", className: "adoption" },
   ];
   const active = selected === null ? null : adoptionScreenshots[selected + 1];
   return (
     <section className="adoption-gallery">
       <header className="adoption-heading">
-        <span>ADOPTION & REACTIONS</span>
-        <h2>From an idea to <em>real use.</em></h2>
-        <p>Developers are trying it. The pattern is spreading.</p>
+        <span>Adoption and reactions</span>
+        <h2>Developers report on Code Mode</h2>
+        <p>Claude Code usage, one cost comparison, and adoption across harnesses</p>
       </header>
       <div className="adoption-cards">
         {stories.map((story, i) => {
@@ -478,7 +493,7 @@ function AdoptionGallery() {
           );
         })}
       </div>
-      <p className="adoption-gallery-note">Three perspectives. One shift toward programmable tool use.</p>
+      <p className="adoption-gallery-note">Individual reports, not a benchmark of this demo</p>
       {active && (
         <div className="adoption-lightbox" role="dialog" aria-modal="true" aria-label={active.caption}
           onClick={(event) => { if (event.target === event.currentTarget) setSelected(null); }}
@@ -499,11 +514,11 @@ function ContextSimulator() {
   return (
     <>
       <div className="simulator-top">
-        <p className="lede">Tool definitions compete with the work itself.</p>
+        <p className="lede">Tool schemas share the context window with the conversation</p>
         <span className="pill">200,000 token window</span>
       </div>
       <div className="sim-controls">
-        <span>TOOLS IN CATALOG</span>
+        <span>Tools in catalog</span>
         {[10, 100, 500, 1000].map((n) => (
           <button
             key={n}
@@ -567,17 +582,6 @@ function ContextSimulator() {
           tone={overflow ? "red" : "slate"}
         />
       </div>
-      <div className="consequences">
-        {[
-          [CircleDollarSign, "Higher inference cost"],
-          [TriangleAlert, "Potential accuracy degradation"],
-          [Layers, "Context overflow"],
-        ].map(([Icon, label]) => (
-          <span key={String(label)}>
-            {typeof Icon !== "string" && <Icon size={23} />} {String(label)}
-          </span>
-        ))}
-      </div>
       <p className="footnote">
         Illustrative assumptions: 20,000 conversation tokens + 200 tokens per
         tool. Dynamic tool toggling can constrain agent autonomy.
@@ -609,13 +613,13 @@ function ExecutionComparison() {
   return (
     <>
       <div className="prompt">
-        <span>USER REQUEST</span>“Find the cheapest available flight from
+        <span>User request</span>“Find the cheapest available flight from
         Bengaluru to Sydney and check its baggage allowance.”
       </div>
       <div className="flow-panels">
         <div className="panel">
-          <div className="panel-label amber-text">TRADITIONAL MCP</div>
-          <div className="traditional-flow">
+          <div className="panel-label amber-text">Tool calling</div>
+          <div className={`traditional-flow ${running ? "is-running" : ""}`}>
             {[
               "LLM",
               "Search flights",
@@ -627,11 +631,15 @@ function ExecutionComparison() {
               "Final answer",
             ].map((s, i) => (
               <div
-                className={`flow-step ${step >= i ? "lit" : ""} ${s === "LLM" ? "model-step" : ""}`}
+                className={`flow-step ${step >= i ? "lit" : ""} ${s === "LLM" ? "model-step" : "tool-step"}`}
                 key={i}
               >
                 <span>
-                  {s === "LLM" ? <Sparkles size={17} /> : <Braces size={17} />}
+                  {s === "LLM" ? (
+                    <img src="/claude-logo.svg" alt="" width={16} height={16} />
+                  ) : (
+                    <Braces size={16} />
+                  )}
                 </span>
                 {s}
                 {i < 7 && <span className="flow-line" />}
@@ -642,27 +650,28 @@ function ExecutionComparison() {
             <Metric
               value={Math.min(4, Math.floor(step / 2) + 1)}
               label="model turns"
-              tone="amber"
+              tone="blue"
             />
             <Metric
               value={Math.min(3, Math.floor((step + 1) / 2))}
               label="tool calls"
+              tone="amber"
             />
           </div>
         </div>
         <div className="panel code-panel">
-          <div className="panel-label purple-text">CODE MODE</div>
+          <div className="panel-label purple-text">Code Mode</div>
           <div className="runtime-flow">
             <div
               className={step >= 0 ? "flow-step lit model-step" : "flow-step"}
             >
-              <Sparkles size={18} /> LLM generates code
+              <img src="/claude-logo.svg" alt="" width={16} height={16} /> LLM generates code
             </div>
             <Connector vertical tone="purple" />
             <div className={`runtime-box ${step >= 2 ? "lit" : ""}`}>
-              <span className="eyebrow">EXECUTION ENVIRONMENT</span>
+              <span className="eyebrow">Execution environment</span>
               <p>search → sort → baggage → filter</p>
-              <span>Intermediate data stays here.</span>
+              <span>Intermediate data stays in the runtime</span>
             </div>
             <Connector vertical tone="purple" />
             <div className={`flow-step ${step >= 7 ? "lit" : ""}`}>
@@ -678,6 +687,7 @@ function ExecutionComparison() {
             <Metric
               value={Math.min(3, Math.max(0, step - 1))}
               label="tool calls"
+              tone="amber"
             />
           </div>
         </div>
@@ -740,16 +750,16 @@ function Anatomy() {
         ))}
       </div>
       <div className="anatomy-detail">
-        <span className="eyebrow">INSPECT THE ARCHITECTURE</span>
+        <span className="eyebrow">Inspect the architecture</span>
         <div className="detail-number">0{selected + 1}</div>
         <h3>{anatomy[selected][0]}</h3>
         <p>{anatomy[selected][1]}</p>
-        <div className="detail-tip">Click a layer to explore its role.</div>
+        <div className="detail-tip">Select a layer to inspect its role</div>
         <div className="result-note">
           <Braces size={22} />
           <span>
-            Code out.
-            <br />A compact, serialized result back.
+            Generated code enters the runtime
+            <br />A serialized result returns to the model
           </span>
         </div>
       </div>
@@ -782,7 +792,7 @@ function Workflow() {
         <div className="trace">
           <div className="trace-title">
             <span className="dot green" />
-            EXECUTION TRACE<span>Illustrative</span>
+            Execution trace<span>Illustrative</span>
           </div>
           {[
             ["searchFlights()", "BLR → SYD · 24 flights", 0],
@@ -831,8 +841,8 @@ function Workflow() {
         ))}
       </div>
       <p className="core-message">
-        The model generates the logic.{" "}
-        <span>The runtime performs the computation.</span>
+        The model writes the workflow{" "}
+        <span>The runtime executes the tool calls</span>
       </p>
     </>
   );
@@ -878,7 +888,7 @@ function Discovery() {
   ));
   return (
     <>
-      <p className="lede">A large catalog. A small context footprint.</p>
+      <p className="lede">Search the catalog, then load the schemas you need</p>
       <div className="discovery-interfaces">
         <Node title="AI agent" icon="cpu" />
         <Connector />
@@ -904,7 +914,7 @@ function Discovery() {
           <input
             type="search"
             aria-label="Search capability catalog"
-            placeholder="Search capabilities: flights, baggage, payments…"
+            placeholder="Search flights, baggage, payments…"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -955,11 +965,11 @@ function Sandbox() {
   return (
     <>
       <p className="lede">
-        Treat generated code as untrusted. Make execution controlled.
+        Run generated code with explicit resource and tool limits
       </p>
       <div className="sandbox-layout">
         <div className="sandbox-input">
-          <Code2 size={36} />
+          <img src="/claude-logo.svg" alt="" width={40} height={40} />
           <strong>
             AI-generated
             <br />
@@ -970,48 +980,36 @@ function Sandbox() {
         <Connector tone="purple" />
         <div className="sandbox">
           <div className="sandbox-header">
-            <ShieldCheck size={24} />
-            <strong>ISOLATED SANDBOX</strong>
+            <img src="/execute-logo.svg" alt="" width={32} height={32} />
+            <strong>Isolated sandbox</strong>
             <span>Trust boundary</span>
           </div>
-          <div className="security-controls">
-            {[
-              [Database, "Memory limits", "Bounded allocation"],
-              [Timer, "Execution timeouts", "Bounded runtime"],
-              [LockKeyhole, "Tool permissions", "Scoped capabilities"],
-              [Layers, "Tool-call limits", "Bounded operations"],
-            ].map(([Icon, title, sub]) => (
-              <div key={String(title)}>
-                {typeof Icon !== "string" && <Icon size={23} />}
-                <strong>{String(title)}</strong>
-                <span>{String(sub)}</span>
-              </div>
-            ))}
-          </div>
           <div className="audit-line">
-            <span className="dot purple" />
-            Isolate · Authorize · Audit
+            Enforce limits, check permissions, record tool calls
           </div>
         </div>
         <Connector tone={attempt ? "red" : "green"} />
         <div className="sandbox-outputs">
           <div className="authorized">
-            <Check size={23} />
-            <strong>travel.searchFlights</strong>
-            <span>Authorized</span>
+            <img src="/mcp-logo.svg" alt="" width={26} height={26} />
+            <div>
+              <strong>travel.searchFlights</strong>
+              <span>Authorized</span>
+            </div>
           </div>
           <div className={`unauthorized ${attempt ? "blocked" : ""}`}>
-            <X size={23} />
-            <strong>admin.deleteAll</strong>
-            <span>
-              {attempt ? "Blocked · permission denied" : "No permission"}
-            </span>
+            <img src="/mcp-logo.svg" alt="" width={26} height={26} />
+            <div>
+              <strong>admin.deleteAll</strong>
+              <span>
+                {attempt ? "Blocked · permission denied" : "No permission"}
+              </span>
+            </div>
           </div>
         </div>
       </div>
       <div className="security-bottom">
         <button className="subtle-button" onClick={() => setAttempt(!attempt)}>
-          <ShieldCheck size={18} />
           {attempt ? "Reset request" : "Try unauthorized call"}
         </button>
         <p>

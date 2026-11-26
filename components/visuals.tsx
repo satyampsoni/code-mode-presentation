@@ -8,6 +8,9 @@ import {
   Database,
   Box,
   Check,
+  IndianRupee,
+  Luggage,
+  Plane,
   Terminal as TerminalIcon,
 } from "lucide-react";
 export type Tone =
@@ -24,9 +27,13 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 14 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
+      transition={{
+        duration: 0.32,
+        delay: Math.min(delay, 0.24),
+        ease: [0.22, 1, 0.36, 1],
+      }}
     >
       {children}
     </motion.div>
@@ -64,7 +71,28 @@ export function Node({
       tabIndex={onClick ? 0 : -1}
     >
       <span className="node-icon">
-        <Icon size={28} strokeWidth={1.5} />
+        {/nitrostack/i.test(title) ? (
+          <img src="/nitrostack-logo.png" alt="" width={28} height={28} />
+        ) : /claude code/i.test(title) || /^llm$/i.test(title) ? (
+          <img src="/claude-logo.svg" alt="" width={28} height={28} />
+        ) : /language model/i.test(title) ? (
+          <>
+            <img src="/chatgpt-logo.svg" alt="" width={28} height={28} />
+            <img src="/claude-logo.svg" alt="" width={28} height={28} />
+          </>
+        ) : /^(travel )?mcp$/i.test(title) ? (
+          <img src="/mcp-logo.svg" alt="" width={28} height={28} />
+        ) : /^execute$/i.test(title) || /sandboxed javascript/i.test(title) ? (
+          <img src="/execute-logo.svg" alt="" width={28} height={28} />
+        ) : /^flights$/i.test(title) ? (
+          <Plane size={28} strokeWidth={1.5} />
+        ) : /^pricing$/i.test(title) ? (
+          <IndianRupee size={28} strokeWidth={1.5} />
+        ) : /^baggage$/i.test(title) ? (
+          <Luggage size={28} strokeWidth={1.5} />
+        ) : (
+          <Icon size={28} strokeWidth={1.5} />
+        )}
       </span>
       <strong>{title}</strong>
       {sub && <span>{sub}</span>}
@@ -93,14 +121,13 @@ export function Connector({
         strokeWidth="1.5"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 0.7, delay }}
+        transition={{ duration: 0.32, delay: Math.min(delay, 0.24) }}
       />
-      <motion.circle
+      <circle
         r="3"
         fill="currentColor"
-        initial={vertical ? { cx: 15, cy: 0 } : { cx: 0, cy: 15 }}
-        animate={vertical ? { cy: [0, 35] } : { cx: [0, 94] }}
-        transition={{ duration: 2, repeat: Infinity, delay }}
+        cx={vertical ? 15 : 94}
+        cy={vertical ? 35 : 15}
       />
     </svg>
   );
@@ -187,11 +214,8 @@ export function ToolGrid({
       style={{ gridTemplateColumns: `repeat(${count <= 5 ? 5 : 20},1fr)` }}
     >
       {Array.from({ length: count }, (_, i) => (
-        <motion.span
+        <span
           key={i}
-          initial={{ opacity: 0, scale: 0.4 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: Math.min(i * 0.004, 0.8) }}
           className={
             selected && [23, 24, 25, 44, 45, 64, 65, 66, 84, 85].includes(i)
               ? "selected"
