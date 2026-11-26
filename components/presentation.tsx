@@ -350,14 +350,6 @@ export default function Presentation() {
           </button>
           <span className="control-divider" />
           <button
-            className={`timer-mini ${elapsed > 1200 ? "red-text" : ""}`}
-            onClick={toggleTimer}
-            title="Toggle timer (T)"
-          >
-            {format(elapsed)} <span>/ 20:00</span>
-          </button>
-          <span className="control-divider" />
-          <button
             disabled={index === 0}
             title="Previous slide"
             aria-label="Previous slide"
