@@ -47,6 +47,7 @@ interface RecordingInfo {
   modes: Mode[];
 }
 interface Status {
+  executionMode?: "live" | "recorded";
   providerConfigured: boolean;
   model: string | null;
   sdkVersion: string;
@@ -138,6 +139,7 @@ export default function DemoWorkbench() {
       const s = await r.json();
       if (!r.ok) throw new Error(s.error);
       setStatus(s);
+      if (s.executionMode === "recorded") setReplay(true);
       setError("");
       setRecordingId((id) =>
         s.recordings.some(
@@ -373,7 +375,8 @@ export default function DemoWorkbench() {
         <div className="lab-mode-switch">
           <button
             className={!replay ? "active" : ""}
-            disabled={running}
+            disabled={running || status?.executionMode === "recorded"}
+            title={status?.executionMode === "recorded" ? "This deployment uses genuine recorded executions." : undefined}
             onClick={() => {
               setReplay(false);
               reset();
@@ -472,7 +475,7 @@ export default function DemoWorkbench() {
                   onClick={() => void start("traditional")}
                 >
                   <Play size={14} />
-                  Run Traditional MCP
+                  Run Tool Calling
                 </button>
                 <button
                   className="run-code"
@@ -605,7 +608,7 @@ export default function DemoWorkbench() {
               </span>
             </div>
             <button
-              disabled={running || testing || !status}
+              disabled={running || testing || !status || status.executionMode === "recorded"}
               onClick={() => void testSecurity()}
             >
               {testing ? (
@@ -640,7 +643,7 @@ export default function DemoWorkbench() {
               .map((e) => (
                 <button key={e.id} onClick={() => setInspected(e)}>
                   <span className={`event-dot ${e.mode}`} />
-                  <span>{e.mode === "code" ? "Code Mode" : "Traditional"}</span>
+                  <span>{e.mode === "code" ? "Code Mode" : "Tool Calling"}</span>
                   <strong>{e.type}</strong>
                   <span>{e.name}</span>
                   <code>{new Date(e.timestamp).toLocaleTimeString()}</code>
@@ -883,7 +886,7 @@ function ExecutionPanel({
           {mode === "traditional" ? <Network size={20} /> : <Code2 size={21} />}
         </div>
         <div>
-          <h2>{mode === "traditional" ? "Traditional MCP" : "Code Mode"}</h2>
+          <h2>{mode === "traditional" ? "Tool Calling" : "Code Mode"}</h2>
           <span>
             {mode === "traditional"
               ? "Individual tools. Model-driven orchestration."
@@ -895,7 +898,7 @@ function ExecutionPanel({
             className="panel-replay"
             onClick={onReplay}
             disabled={replayDisabled}
-            aria-label={`Replay ${mode === "traditional" ? "Traditional MCP" : "Code Mode"}`}
+            aria-label={`Replay ${mode === "traditional" ? "Tool Calling" : "Code Mode"}`}
           >
             <RotateCcw size={13} /> Replay
           </button>
@@ -1125,7 +1128,7 @@ function MetricsComparison({
           <span>EXECUTION METRIC</span>
           <span>
             <i className="event-dot traditional" />
-            Traditional MCP
+            Tool Calling
           </span>
           <span>
             <i className="event-dot code" />
@@ -1221,7 +1224,7 @@ function LiveArchitecture({
     <section className={`live-architecture ${mode}`}>
       <div className="architecture-title">
         <span className={`event-dot ${mode}`} />
-        <h2>{mode === "traditional" ? "Traditional MCP" : "Code Mode"}</h2>
+        <h2>{mode === "traditional" ? "Tool Calling" : "Code Mode"}</h2>
         <span>{events.length ? "Event driven" : "Awaiting execution"}</span>
       </div>
       <div className="architecture-stack">

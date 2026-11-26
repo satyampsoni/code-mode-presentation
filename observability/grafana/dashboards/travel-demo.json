@@ -7,7 +7,7 @@
     "live"
   ],
   "schemaVersion": 41,
-  "version": 6,
+  "version": 8,
   "editable": false,
   "refresh": "2s",
   "time": {
@@ -33,7 +33,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"exposedTools\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"exposedTools\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -58,7 +58,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -73,7 +73,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -127,7 +127,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"initialDefinitionTokens\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"initialDefinitionTokens\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -152,7 +152,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -167,7 +167,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -221,7 +221,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -246,7 +246,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -261,7 +261,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -315,7 +315,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -340,7 +340,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -355,7 +355,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -409,7 +409,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": true,
           "range": false,
@@ -434,7 +434,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -449,7 +449,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -502,7 +502,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"outputTokens\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"outputTokens\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": true,
           "range": false,
@@ -527,7 +527,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -542,7 +542,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -595,7 +595,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"latencyMs\"} / 1000",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"latencyMs\"} / 1000), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": true,
           "range": false,
@@ -620,7 +620,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -635,7 +635,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -688,7 +688,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (mode) (agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=~\"initialDefinitionBytes|intermediateBytes\"})",
+          "expr": "label_replace(label_replace((sum by (mode) (agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=~\"initialDefinitionBytes|intermediateBytes\"})), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": true,
           "range": false,
@@ -713,7 +713,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -728,7 +728,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -800,7 +800,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -815,7 +815,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -888,7 +888,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -903,7 +903,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -976,7 +976,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -991,7 +991,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1064,7 +1064,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -1079,7 +1079,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1133,7 +1133,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -1165,7 +1165,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -1180,7 +1180,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1223,7 +1223,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -1255,7 +1255,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -1270,7 +1270,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1313,7 +1313,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -1345,7 +1345,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -1360,7 +1360,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1403,7 +1403,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"latencyMs\"} / 1000",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"latencyMs\"} / 1000), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -1435,7 +1435,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -1450,7 +1450,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1493,7 +1493,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "sum by (mode) (agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=~\"initialDefinitionBytes|intermediateBytes\"})",
+          "expr": "label_replace(label_replace((sum by (mode) (agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=~\"initialDefinitionBytes|intermediateBytes\"})), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "{{mode}}",
           "instant": false,
           "range": true,
@@ -1525,7 +1525,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -1540,7 +1540,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1583,7 +1583,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"inputTokens\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "input tokens \u00b7 {{mode}}",
           "instant": true,
           "range": false,
@@ -1594,7 +1594,7 @@
         },
         {
           "refId": "B",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"outputTokens\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"outputTokens\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "output tokens \u00b7 {{mode}}",
           "instant": true,
           "range": false,
@@ -1605,7 +1605,7 @@
         },
         {
           "refId": "C",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"modelRequests\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "API requests \u00b7 {{mode}}",
           "instant": true,
           "range": false,
@@ -1616,7 +1616,7 @@
         },
         {
           "refId": "D",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\",metric=\"toolCalls\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "legendFormat": "tool calls \u00b7 {{mode}}",
           "instant": true,
           "range": false,
@@ -1638,7 +1638,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*traditional.*"
+              "options": ".*Tool Calling.*"
             },
             "properties": [
               {
@@ -1653,7 +1653,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": ".*code.*"
+              "options": ".*Code Mode.*"
             },
             "properties": [
               {
@@ -1693,7 +1693,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\"}",
+          "expr": "label_replace(label_replace((agent_demo_measurement{source=\"recorded\",recording_id=\"$recording\"}), \"mode\", \"Code Mode\", \"mode\", \"code\"), \"mode\", \"Tool Calling\", \"mode\", \"traditional\")",
           "instant": true,
           "range": false,
           "format": "table"

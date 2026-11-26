@@ -1,0 +1,13 @@
+.git
+.github
+.env*
+node_modules
+.next
+.vercel
+travel-lab/node_modules
+travel-lab/dist
+travel-lab/.debug
+observability/metrics
+research
+docs/images
+*.tsbuildinfo

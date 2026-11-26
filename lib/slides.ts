@@ -46,7 +46,7 @@ export const slides = [
     section: "A different interface",
     duration: 100,
     notes:
-      "Keep the request identical in both flows. Traditional execution returns intermediate data to the model across dependent steps. Code Mode expresses the sequence in one script and returns a compact result. In this illustrative comparison there are four versus two model turns and three underlying tool calls on both sides. Sorting happens locally. Code Mode does not inherently reduce API calls.",
+      "Keep the request identical in both flows. Tool calling returns intermediate data to the model across dependent steps. Code Mode expresses the sequence in one script and returns a compact result. In this illustrative comparison there are four versus two model turns and three underlying tool calls on both sides. Sorting happens locally. Code Mode does not inherently reduce API calls.",
   },
   {
     title: "Anatomy of Code Mode",

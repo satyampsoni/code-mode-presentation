@@ -1,0 +1,73 @@
+name: CI and Vercel deployment
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vercel-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  check-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DEPLOY_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Test MCP transports, sandbox, and agent loop
+        run: npm run test:demo
+      - name: Test genuine hosted replay
+        run: npm run test:hosted
+      - name: Check deployment configuration
+        id: deployment
+        env:
+          TRUSTED_SOURCE: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          if [ "$TRUSTED_SOURCE" = "true" ] && [ -n "$VERCEL_TOKEN" ] && [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Checks will run without deploying. Configure VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID to enable deployments." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Pull Vercel project configuration
+        if: steps.deployment.outputs.enabled == 'true'
+        run: npx --yes vercel@65.14.0 pull --yes --environment="$DEPLOY_ENVIRONMENT" --token="$VERCEL_TOKEN"
+      - name: Build deployment artifact
+        if: steps.deployment.outputs.enabled == 'true'
+        run: |
+          if [ "$DEPLOY_ENVIRONMENT" = "production" ]; then
+            npx --yes vercel@65.14.0 build --prod --token="$VERCEL_TOKEN"
+          else
+            npx --yes vercel@65.14.0 build --token="$VERCEL_TOKEN"
+          fi
+      - name: Build without deployment credentials
+        if: steps.deployment.outputs.enabled != 'true'
+        run: npm run build
+      - name: Deploy verified artifact
+        if: steps.deployment.outputs.enabled == 'true'
+        run: |
+          if [ "$DEPLOY_ENVIRONMENT" = "production" ]; then
+            npx --yes vercel@65.14.0 deploy --prebuilt --prod --yes --token="$VERCEL_TOKEN" > deployment-url.txt
+          else
+            npx --yes vercel@65.14.0 deploy --prebuilt --yes --token="$VERCEL_TOKEN" > deployment-url.txt
+          fi
+          printf 'Deployment: %s\n' "$(cat deployment-url.txt)" >> "$GITHUB_STEP_SUMMARY"

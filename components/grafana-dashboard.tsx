@@ -7,6 +7,8 @@ export default function GrafanaDashboard({
   recordingId: string;
 }) {
   const [ready, setReady] = useState(false),
+    [dashboardUrl, setDashboardUrl] = useState("http://localhost:3300"),
+    [hosted, setHosted] = useState(false),
     [attempt, setAttempt] = useState(0);
   useEffect(() => {
     let alive = true;
@@ -14,7 +16,11 @@ export default function GrafanaDashboard({
       try {
         const r = await fetch("/api/demo/status");
         const data = await r.json();
-        if (alive) setReady(!!data.grafana?.ready);
+        if (alive) {
+          setReady(!!data.grafana?.ready);
+          setDashboardUrl(data.grafana?.url || "");
+          setHosted(data.hosting === "vercel" || !!data.grafana?.hosted);
+        }
       } catch {
         if (alive) setReady(false);
       }
@@ -26,7 +32,15 @@ export default function GrafanaDashboard({
       clearInterval(timer);
     };
   }, [attempt]);
-  const url = `http://localhost:3300/d/travel-agent-demo?orgId=1&theme=dark&kiosk&refresh=2s&var-recording=${encodeURIComponent(recordingId)}`;
+  let url = "";
+  try {
+    const target = new URL(dashboardUrl);
+    if (["http:", "https:"].includes(target.protocol)) {
+      if (target.pathname === "/") target.pathname = "/d/travel-agent-demo";
+      for (const [key, value] of Object.entries({ orgId: "1", theme: "dark", kiosk: "true", refresh: "2s", "var-recording": recordingId })) target.searchParams.set(key, value);
+      url = target.toString();
+    }
+  } catch {}
   return (
     <section
       className="grafana-dashboard"
@@ -35,23 +49,23 @@ export default function GrafanaDashboard({
       <header>
         <div>
           <span className="eyebrow">GRAFANA · PROMETHEUS</span>
-          <h3>Live agent execution</h3>
+          <h3>{hosted ? "Recorded agent execution" : "Live agent execution"}</h3>
         </div>
         <div>
           <span className={`grafana-connection ${ready ? "ready" : ""}`}>
             <i />
-            {ready ? "Live" : "Connecting"}
+            {ready ? hosted ? "Connected" : "Live" : hosted ? "Not connected" : "Connecting"}
           </span>
-          <a href={url} target="_blank" rel="noreferrer">
+          {url && <a href={url} target="_blank" rel="noreferrer">
             Open Grafana
             <ExternalLink size={13} />
-          </a>
+          </a>}
         </div>
       </header>
-      {ready && recordingId ? (
+      {ready && recordingId && url ? (
         <iframe
           key={recordingId}
-          title="Grafana: Traditional MCP and Code Mode live measurements"
+          title={`Grafana: Tool Calling and Code Mode ${hosted ? "recorded" : "live"} measurements`}
           src={url}
           loading="lazy"
         />
@@ -61,10 +75,9 @@ export default function GrafanaDashboard({
           <strong>
             {ready
               ? "Waiting for live metrics."
-              : "Waiting for the local Grafana instance."}
+              : hosted ? "Grafana is not connected to this deployment." : "Waiting for the local Grafana instance."}
           </strong>
-          <span>Start Docker Desktop and run:</span>
-          <code>npm run observability:start</code>
+          {!hosted && <><span>Start Docker Desktop and run:</span><code>npm run observability:start</code></>}
           <button onClick={() => setAttempt((a) => a + 1)}>
             <RefreshCw size={14} />
             Check connection

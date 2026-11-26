@@ -266,7 +266,7 @@ const server = createServer(async (req, res) => {
     ) {
       json(400, {
         error:
-          "Select a genuine comparison recording containing both Traditional MCP and Code Mode.",
+          "Select a genuine comparison recording containing both Tool Calling and Code Mode.",
       });
       return;
     }

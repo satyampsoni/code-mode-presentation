@@ -4,6 +4,7 @@ out/
 *.tsbuildinfo
 .env*
 .DS_Store
+.vercel/
 
 travel-lab/dist/
 travel-lab/*.tsbuildinfo

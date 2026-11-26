@@ -324,7 +324,7 @@ export function SlideContent({ index }: { index: number }) {
           <div className="table-row table-head">
             <span>DIMENSION</span>
             <span>
-              <span className="dot amber" /> Traditional MCP
+              <span className="dot amber" /> Tool Calling
             </span>
             <span>
               <span className="dot purple" /> Code Mode

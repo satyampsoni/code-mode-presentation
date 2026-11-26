@@ -10,6 +10,7 @@
     "demo": "npm run build:lab && npm run build && node scripts/dev-demo.mjs",
     "build:lab": "npm run build --workspace @codemode/travel-lab",
     "test:demo": "npm run build:lab && npm test --workspace @codemode/travel-lab",
+    "test:hosted": "node --experimental-strip-types --test scripts/hosted-demo.test.mjs",
     "record:demo": "npm run build:lab && npm run record --workspace @codemode/travel-lab",
     "observability:start": "docker compose -f observability/compose.yaml up -d",
     "observability:stop": "docker compose -f observability/compose.yaml down"
@@ -33,5 +34,8 @@
   },
   "workspaces": [
     "travel-lab"
-  ]
+  ],
+  "engines": {
+    "node": "22.x"
+  }
 }

@@ -12,7 +12,7 @@ This repository is a conference talk and a working lab for that idea: **Solving 
 
 One travel task. Two executions. One NitroStack server.
 
-| | Traditional MCP | Code Mode |
+| | Tool Calling | Code Mode |
 | --- | --- | --- |
 | What the model sees | Each travel tool as its own function | `search`, `get_schema`, and `execute` |
 | Who orchestrates | The model, one call at a time | JavaScript the model writes |
@@ -23,9 +23,9 @@ The task is the same in both modes: find flights from Bengaluru to Sydney under 
 
 ## Measured on a real Grafana dashboard
 
-The lab exports those runs to Prometheus. Grafana charts them. Orange is Traditional MCP. Purple is Code Mode.
+The lab exports those runs to Prometheus. Grafana charts them. Orange is Tool Calling. Purple is Code Mode.
 
-![Grafana overview: tools, tokens, latency, and traffic for Traditional MCP and Code Mode](docs/images/grafana-overview.png)
+![Grafana overview: tools, tokens, latency, and traffic for Tool Calling and Code Mode](docs/images/grafana-overview.png)
 
 On this run, Code Mode exposed 3 interfaces instead of 10 tools, used about half the input tokens, made 9 model requests instead of 19, and finished in 1.39 minutes instead of 2.59. Traffic — tool definitions plus tool responses sent back to the model — stayed close, at about 8 KiB and 9 KiB.
 
@@ -37,7 +37,9 @@ Open the live dashboard at [localhost:3300](http://localhost:3300) after startin
 
 ## Run
 
-Requires Node.js 20.9+. Node.js 22.15+ is recommended for the lab.
+For production hosting and deployment-gated GitHub Actions, see [Vercel deployment](DEPLOYMENT.md). The hosted app supports genuine saved replay without local services or model credentials.
+
+Requires Node.js 22.x. Run `nvm use` to select the version configured in `.nvmrc`.
 
 ```sh
 npm install
