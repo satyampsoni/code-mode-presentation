@@ -11,7 +11,9 @@ import {
   Pause,
   Play,
   Presentation as PresentationIcon,
+  Moon,
   RotateCcw,
+  Sun,
   X,
 } from "lucide-react";
 import { slides } from "../lib/slides";
@@ -29,12 +31,15 @@ export default function Presentation() {
     [elapsed, setElapsed] = useState(0),
     [running, setRunning] = useState(false),
     [slideStart, setSlideStart] = useState(0),
-    [help, setHelp] = useState(false);
+    [help, setHelp] = useState(false),
+    [theme, setTheme] = useState<"dark" | "light">("dark");
   const area = useRef<HTMLDivElement>(null);
   const channel = useRef<BroadcastChannel | null>(null);
   const lastTick = useRef(Date.now());
   const stateRef = useRef({ index, elapsed, running, slideStart });
+  const themeRef = useRef(theme);
   stateRef.current = { index, elapsed, running, slideStart };
+  themeRef.current = theme;
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setPresenter(params.has("presenter"));
@@ -75,6 +80,13 @@ export default function Presentation() {
     setElapsed(restored.elapsed);
     setRunning(restored.running);
     setSlideStart(restored.slideStart);
+    try {
+      const savedTheme = localStorage.getItem("codemode-talk-theme");
+      if (savedTheme === "light" || savedTheme === "dark") {
+        themeRef.current = savedTheme;
+        setTheme(savedTheme);
+      }
+    } catch {}
     lastTick.current = Date.now();
     const bc = new BroadcastChannel("codemode-talk");
     channel.current = bc;
@@ -87,8 +99,17 @@ export default function Presentation() {
         setRunning(s.running);
         setSlideStart(s.slideStart);
       }
-      if (e.data.type === "request" && !params.has("presenter"))
+      if (e.data.type === "theme" && (e.data.theme === "light" || e.data.theme === "dark")) {
+        themeRef.current = e.data.theme;
+        setTheme(e.data.theme);
+        try {
+          localStorage.setItem("codemode-talk-theme", e.data.theme);
+        } catch {}
+      }
+      if (e.data.type === "request" && !params.has("presenter")) {
         bc.postMessage({ type: "state", state: stateRef.current });
+        bc.postMessage({ type: "theme", theme: themeRef.current });
+      }
     };
     bc.postMessage({ type: "request" });
     return () => bc.close();
@@ -151,6 +172,14 @@ export default function Presentation() {
     }, 1000);
     return () => clearInterval(id);
   }, [running, presenter, publish]);
+  const applyTheme = useCallback((next: "dark" | "light") => {
+    themeRef.current = next;
+    setTheme(next);
+    try {
+      localStorage.setItem("codemode-talk-theme", next);
+    } catch {}
+    channel.current?.postMessage({ type: "theme", theme: next });
+  }, []);
   const toggleTimer = useCallback(() => {
     const next = !stateRef.current.running;
     setRunning(next);
@@ -202,12 +231,14 @@ export default function Presentation() {
       if (e.key.toLowerCase() === "f") fullscreen();
       if (["p", "n"].includes(e.key.toLowerCase())) openPresenter();
       if (e.key.toLowerCase() === "t") toggleTimer();
+      if (e.key.toLowerCase() === "b")
+        applyTheme(themeRef.current === "dark" ? "light" : "dark");
       if (e.key.toLowerCase() === "d") location.href = "/demo";
       if (e.key === "?") setHelp((v) => !v);
     };
     window.addEventListener("keydown", handle);
     return () => window.removeEventListener("keydown", handle);
-  }, [go, toggleTimer]);
+  }, [go, toggleTimer, applyTheme]);
   const slide = slides[index];
   const allotted = slides
     .slice(0, index + 1)
@@ -215,6 +246,7 @@ export default function Presentation() {
   return (
     <main
       className={`presentation-shell ${presenter ? "presenter-shell" : ""}`}
+      data-theme={theme}
     >
       <div className="app-topbar">
         <span className="presentation-context">
@@ -342,6 +374,14 @@ export default function Presentation() {
             <PresentationIcon size={19} />
           </button>
           <button
+            title={theme === "dark" ? "White theme (B)" : "Dark theme (B)"}
+            aria-label={theme === "dark" ? "Switch to white theme" : "Switch to dark theme"}
+            aria-pressed={theme === "dark"}
+            onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
+          <button
             title="Fullscreen (F)"
             aria-label="Toggle fullscreen"
             onClick={fullscreen}
@@ -437,6 +477,7 @@ export default function Presentation() {
               ["F", "Toggle fullscreen"],
               ["P / N", "Open private presenter window"],
               ["T", "Start or pause speaker timer"],
+              ["B", "Switch dark and white theme"],
               ["D", "Open demo handoff"],
               ["Esc", "Close overview or help"],
             ].map(([key, label]) => (

@@ -13,15 +13,16 @@ import {
   Clock3,
   Code2,
   Copy,
-  Database,
   FileCode2,
   GitCompareArrows,
   Layers,
   Loader2,
   Network,
+  Moon,
   Play,
   Radio,
   RotateCcw,
+  Sun,
   Search,
   ShieldCheck,
   Square,
@@ -75,7 +76,7 @@ type StreamMessage =
 const stages = [
   {
     title: "The working tools",
-    caption: "Inspect the travel server and sample data",
+    caption: "Inspect the travel server and tools",
     tab: "build",
     file: "travel-lab/src/travel.tools.ts",
   },
@@ -132,6 +133,10 @@ export default function DemoWorkbench() {
     [testing, setTesting] = useState(false),
     [inspected, setInspected] = useState<TraceEvent | null>(null),
     [copied, setCopied] = useState("");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const themeRef = useRef(theme);
+  const channel = useRef<BroadcastChannel | null>(null);
+  themeRef.current = theme;
   const abort = useRef<AbortController | null>(null);
   const refreshStatus = useCallback(async () => {
     try {
@@ -192,6 +197,35 @@ export default function DemoWorkbench() {
     setTab(stages[s].tab);
     setActiveFile(stages[s].file);
   }, []);
+  const applyTheme = useCallback((next: "dark" | "light") => {
+    themeRef.current = next;
+    setTheme(next);
+    try {
+      localStorage.setItem("codemode-talk-theme", next);
+    } catch {}
+    channel.current?.postMessage({ type: "theme", theme: next });
+  }, []);
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("codemode-talk-theme");
+      if (saved === "light" || saved === "dark") {
+        themeRef.current = saved;
+        setTheme(saved);
+      }
+    } catch {}
+    const bc = new BroadcastChannel("codemode-talk");
+    channel.current = bc;
+    bc.onmessage = (e) => {
+      if (e.data?.type !== "theme") return;
+      if (e.data.theme !== "light" && e.data.theme !== "dark") return;
+      themeRef.current = e.data.theme;
+      setTheme(e.data.theme);
+    };
+    return () => {
+      channel.current = null;
+      bc.close();
+    };
+  }, []);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (
@@ -205,10 +239,12 @@ export default function DemoWorkbench() {
       if (e.key === "]") setMinute(stage + 1);
       if (e.key === "[") setMinute(stage - 1);
       if (e.key === "Escape") setInspected(null);
+      if (e.key.toLowerCase() === "b")
+        applyTheme(themeRef.current === "dark" ? "light" : "dark");
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [setMinute, stage]);
+  }, [setMinute, stage, applyTheme]);
   const copy = async (text: string, key: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -342,7 +378,7 @@ export default function DemoWorkbench() {
   };
   const complete = modes.every((m) => traces[m]?.status === "complete");
   return (
-    <main className="lab-shell">
+    <main className="lab-shell" data-theme={theme}>
       <header className="lab-header">
         <a className="brand nitrostack-lab-brand" href="/?slide=15">
           <img src="/nitrostack-logo.png" alt="" width={25} height={25} />
@@ -358,9 +394,20 @@ export default function DemoWorkbench() {
               : "Connecting to local agent"}
           </span>
         </div>
-        <a className="back-to-talk" href="/?slide=15">
-          <ArrowLeft size={14} /> Back to the talk
-        </a>
+        <div className="lab-header-actions">
+          <button
+            className="theme-switch"
+            title={theme === "dark" ? "White theme (B)" : "Dark theme (B)"}
+            aria-label={theme === "dark" ? "Switch to white theme" : "Switch to dark theme"}
+            aria-pressed={theme === "dark"}
+            onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+          <a className="back-to-talk" href="/?slide=15">
+            <ArrowLeft size={14} /> Back to the talk
+          </a>
+        </div>
       </header>
       <section className="lab-intro">
         <div>
@@ -371,7 +418,6 @@ export default function DemoWorkbench() {
           <button
             className={!replay ? "active" : ""}
             disabled={running || status?.executionMode === "recorded"}
-            title={status?.executionMode === "recorded" ? "This deployment uses genuine recorded executions." : undefined}
             onClick={() => {
               setReplay(false);
               reset();
@@ -389,7 +435,7 @@ export default function DemoWorkbench() {
             }}
           >
             <RotateCcw size={14} />
-            Recorded replay
+            Replay
           </button>
         </div>
       </section>
@@ -397,23 +443,23 @@ export default function DemoWorkbench() {
         <div className="replay-banner">
           <RotateCcw size={18} />
           <div>
-            <strong>Recorded replay · not live</strong>
+            <strong>Replay</strong>
             <span>
               {replayInfo
-                ? `Genuine execution recorded ${new Date(replayInfo.recordedAt).toLocaleString()}. Accelerated playback.`
-                : "Choose a previously recorded genuine execution. Replay makes no model requests."}
+                ? new Date(replayInfo.recordedAt).toLocaleString()
+                : "Choose a saved run."}
             </span>
           </div>
           <select
-            aria-label="Genuine recording"
+            aria-label="Saved run"
             value={recordingId}
             onChange={(e) => setRecordingId(e.target.value)}
             disabled={running}
           >
             <option value="">
               {status?.recordings.length
-                ? "Select a recording"
-                : "No genuine recordings yet"}
+                ? "Select a run"
+                : "No saved runs yet"}
             </option>
             {status?.recordings
               .filter(
@@ -548,10 +594,6 @@ export default function DemoWorkbench() {
             {typeof Icon !== "string" && <Icon size={16} />} {String(label)}
           </button>
         ))}
-        <span>
-          <Database size={13} />
-          Deterministic sample flight data
-        </span>
       </nav>
       {tab === "compare" && (
         <>
@@ -666,8 +708,7 @@ export default function DemoWorkbench() {
               </button>
             ))}
             <div className="build-source-note">
-              These files are read from the running project. No illustrative SDK
-              methods.
+              These files are read from the running project.
             </div>
             <a
               href="https://docs.nitrostack.ai/docs/templates/code-mode"
@@ -1008,7 +1049,7 @@ function ExecutionPanel({
               <div className="final-answer">
                 <span>
                   <CheckCheck size={16} />
-                  {replay ? "Recorded result. Sample data." : "Final result. Sample data."}
+                  Final result
                 </span>
                 {Array.isArray(answer?.options) && answer.options.length > 0 ? (
                   <>
@@ -1108,7 +1149,7 @@ function MetricsComparison({
       <div className="metrics-dashboard-heading">
         <div>
           <span className="eyebrow">
-            {replay ? "Recorded measurements" : "Measured on this run"}
+            Measured on this run
           </span>
           <h3>Execution measurements</h3>
         </div>

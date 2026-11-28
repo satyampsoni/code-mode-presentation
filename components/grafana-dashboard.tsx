@@ -49,11 +49,11 @@ export default function GrafanaDashboard({
       <header>
         <div>
           <span className="eyebrow">Grafana and Prometheus</span>
-          <h3>{hosted ? "Recorded agent execution" : "Live agent execution"}</h3>
+          <h3>Live agent execution</h3>
         </div>
         <div>
           <span className={`grafana-connection ${ready ? "ready" : ""}`}>
-            {ready ? hosted ? "Connected" : "Live" : hosted ? "Not connected" : "Connecting"}
+            {ready ? "Live" : "Connecting"}
           </span>
           {url && <a href={url} target="_blank" rel="noreferrer">
             Open Grafana
@@ -64,7 +64,7 @@ export default function GrafanaDashboard({
       {ready && recordingId && url ? (
         <iframe
           key={recordingId}
-          title={`Grafana: Tool Calling and Code Mode ${hosted ? "recorded" : "live"} measurements`}
+          title="Grafana: Tool Calling and Code Mode"
           src={url}
           loading="lazy"
         />

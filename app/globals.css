@@ -2404,6 +2404,7 @@ p {
   letter-spacing: 0.6px;
 }
 .title-slide.title-centered {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2438,6 +2439,31 @@ p {
 .title-slide.title-centered > p {
   font-size: 23px;
   margin-top: 28px;
+}
+.title-speaker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  text-align: left;
+}
+.title-speaker img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.title-speaker strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 550;
+  color: #111;
+}
+.title-speaker span {
+  display: block;
+  margin-top: 4px;
+  font-size: 15px;
+  color: #525252;
 }
 
 .announcement-slide {
@@ -2520,10 +2546,10 @@ p {
 .slide-canvas[data-slide="13"] .sandbox-input,
 .slide-canvas[data-slide="13"] .sandbox-input strong { color: #111; }
 .slide-canvas[data-slide="13"] .sandbox-input code { color: #5c5c5c; }
-.slide-canvas[data-slide="13"] .sandbox { border-color: #1d4ed8; background: #fff; }
+.slide-canvas[data-slide="13"] .sandbox { border-color: #d4d4d4; background: #fafafa; }
 .slide-canvas[data-slide="13"] .sandbox-header { color: #111; }
-.slide-canvas[data-slide="13"] .sandbox-header > span { color: #1d4ed8; }
-.slide-canvas[data-slide="13"] .audit-line { color: #3f3f3f; border-top-color: #dbe4f5; }
+.slide-canvas[data-slide="13"] .sandbox-header > span { color: #666; }
+.slide-canvas[data-slide="13"] .audit-line { color: #525252; border-top-color: #e5e5e5; }
 .slide-canvas[data-slide="13"] .sandbox-outputs > div {
   flex-direction: row;
   align-items: center;
@@ -2534,8 +2560,8 @@ p {
 }
 .slide-canvas[data-slide="13"] .sandbox-outputs > div > div { display: flex; flex-direction: column; gap: 4px; }
 .slide-canvas[data-slide="13"] .sandbox-outputs strong { color: #111; }
-.slide-canvas[data-slide="13"] .authorized { border-color: #fdba74; }
-.slide-canvas[data-slide="13"] .authorized span { color: #c2410c; }
+.slide-canvas[data-slide="13"] .authorized { border-color: #d4d4d4; }
+.slide-canvas[data-slide="13"] .authorized span { color: #166534; }
 .slide-canvas[data-slide="13"] .sandbox-outputs .unauthorized { color: #737373; background: #fff; border-color: #e5e5e5; }
 .slide-canvas[data-slide="13"] .sandbox-outputs .unauthorized strong,
 .slide-canvas[data-slide="13"] .sandbox-outputs .unauthorized span { color: #737373; }
@@ -2557,5 +2583,81 @@ p {
 .slide-canvas[data-slide="15"] .demo-card .primary-button { background: #111111; }
 .slide-canvas[data-slide="16"] .closing-slide h1 > span { color: #1d4ed8; }
 
-/* Review informed by unslop, Damir Sokolovsky (@heydamir), CC BY 4.0.
-   https://github.com/heydamir/unslop — retain existing deck structure and brand. */
+/* Dark theme. Slide content is inverted so existing ink-on-white diagrams
+   become light-on-dark. Photos, brand marks, and the dark terminal are
+   inverted again so they keep their color. White theme is the base styles. */
+html:has(.presentation-shell[data-theme="dark"]),
+body:has(.presentation-shell[data-theme="dark"]),
+.presentation-shell[data-theme="dark"] {
+  background: #090909;
+  color: #f2f2f2;
+}
+.presentation-shell[data-theme="dark"] .app-topbar,
+.presentation-shell[data-theme="dark"] .control-bar,
+.presentation-shell[data-theme="dark"] .presenter-notes,
+.presentation-shell[data-theme="dark"] .help-dialog,
+.presentation-shell[data-theme="dark"] .overview-grid > button {
+  background: #141414;
+  color: #f2f2f2;
+  border-color: #2c2c2c;
+}
+.presentation-shell[data-theme="dark"] .app-topbar,
+.presentation-shell[data-theme="dark"] .control-bar,
+.presentation-shell[data-theme="dark"] .presenter-notes {
+  border-color: #2a2a2a;
+}
+.presentation-shell[data-theme="dark"] .edition,
+.presentation-shell[data-theme="dark"] .shortcut-help,
+.presentation-shell[data-theme="dark"] .control-actions button,
+.presentation-shell[data-theme="dark"] .slide-position > span:last-child,
+.presentation-shell[data-theme="dark"] .overview-heading > button,
+.presentation-shell[data-theme="dark"] .canvas-footer {
+  color: #b5b5b5;
+}
+.presentation-shell[data-theme="dark"] .shortcut-help,
+.presentation-shell[data-theme="dark"] .overview-grid > button,
+.presentation-shell[data-theme="dark"] .overview-grid > button.current {
+  border-color: #3a3a3a;
+}
+.presentation-shell[data-theme="dark"] .control-divider,
+.presentation-shell[data-theme="dark"] .overall-progress {
+  background: #2c2c2c;
+}
+.presentation-shell[data-theme="dark"] .overall-progress > div {
+  background: #f2f2f2;
+}
+.presentation-shell[data-theme="dark"] .control-actions button:hover {
+  background: #242424;
+  color: #fff;
+}
+.presentation-shell[data-theme="dark"] .control-actions .next-button,
+.presentation-shell[data-theme="dark"] .control-actions .next-button:hover {
+  background: #f2f2f2;
+  color: #111;
+}
+.presentation-shell[data-theme="dark"] .slide-canvas {
+  background: #101010;
+  color: #111111;
+  box-shadow: none;
+}
+.presentation-shell[data-theme="dark"] .overview-backdrop {
+  background: #0c0c0ce8;
+}
+.presentation-shell[data-theme="dark"] .slide-inner {
+  filter: invert(1) hue-rotate(180deg);
+}
+.presentation-shell[data-theme="dark"] .slide-inner .terminal,
+.presentation-shell[data-theme="dark"] .slide-inner img[src$=".jpg"],
+.presentation-shell[data-theme="dark"] .slide-inner img[src$=".png"],
+.presentation-shell[data-theme="dark"] .slide-inner img[src*="chatgpt"],
+.presentation-shell[data-theme="dark"] .slide-inner img[src*="execute"],
+.presentation-shell[data-theme="dark"] .slide-inner img[src*="javascript"],
+.presentation-shell[data-theme="dark"] .slide-inner .adoption-lightbox {
+  filter: invert(1) hue-rotate(180deg);
+}
+.presentation-shell[data-theme="dark"] .slide-inner .adoption-lightbox img {
+  filter: none;
+}
+
+.slide-canvas[data-slide="13"] .sandbox-layout > .connector { color: #737373; }
+.slide-canvas[data-slide="13"] .sandbox-layout > .connector.tone-red { color: #b91c1c; }

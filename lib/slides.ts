@@ -25,7 +25,7 @@ export const slides = [
     section: "The scaling problem",
     duration: 75,
     notes:
-      "These numbers are illustrative, not a measurement of any specific model. We assume 200k capacity, 20k conversation and 200 tokens per tool. Select 1,000 tools: definitions alone consume 200k tokens. Cost and accuracy depend on model, caching and tool selection. Dynamically enabling tools helps, but external selection can constrain agent autonomy. Can we reduce context without reducing capabilities?",
+      "We assume 200k capacity, 20k conversation and 200 tokens per tool. Select 1,000 tools: definitions alone consume 200k tokens. Cost and accuracy depend on model, caching and tool selection. Dynamically enabling tools helps, but external selection can constrain agent autonomy. Can we reduce context without reducing capabilities?",
   },
   {
     title: "Three problems at catalog scale",
@@ -53,7 +53,7 @@ export const slides = [
     section: "A different interface",
     duration: 100,
     notes:
-      "Keep the request identical in both flows. Tool calling returns intermediate data to the model across dependent steps. Code Mode expresses the sequence in one script and returns a compact result. In this illustrative comparison there are four versus two model turns and three underlying tool calls on both sides. Sorting happens locally. Code Mode does not inherently reduce API calls.",
+      "Keep the request identical in both flows. Tool calling returns intermediate data to the model across dependent steps. Code Mode expresses the sequence in one script and returns a compact result. There are four versus two model turns and three underlying tool calls on both sides. Sorting happens locally. Code Mode does not inherently reduce API calls.",
   },
   {
     title: "Anatomy of Code Mode",
@@ -80,14 +80,14 @@ export const slides = [
     section: "Under the hood",
     duration: 100,
     notes:
-      "Play the execution trace. Search flights, sort by price, fetch baggage for the selected flight, and serialize the result. This is illustrative execution, not a real airline integration. Code provides familiar control flow: loops, conditions, parallel execution, filters, transforms and dependent operations. The model generates logic; the runtime performs computation.",
+      "Play the execution trace. Search flights, sort by price, fetch baggage for the selected flight, and serialize the result. Code provides familiar control flow: loops, conditions, parallel execution, filters, transforms and dependent operations. The model generates logic; the runtime performs computation.",
   },
   {
     title: "Discover tools and load selected schemas",
     section: "Under the hood",
     duration: 90,
     notes:
-      "These are illustrative interface names, not mandated MCP methods. Search locates candidates; get_schema loads only needed contracts; execute runs the generated workflow. Progressive discovery supports broad catalogs while controlling context. Search quality and authorization filtering still matter.",
+      "Search locates candidates; get_schema loads only needed contracts; execute runs the generated workflow. Progressive discovery supports broad catalogs while controlling context. Search quality and authorization filtering still matter.",
   },
   {
     title: "Bound the execution of generated code",

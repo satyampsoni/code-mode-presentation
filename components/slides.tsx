@@ -86,6 +86,15 @@ export function SlideContent({ index }: { index: number }) {
           for <span>enterprise AI.</span>
         </h1>
         <p>From tool calling to programmable agent execution</p>
+        <div className="title-speaker">
+          <img src="/speaker.jpg" alt="" width={72} height={72} />
+          <div>
+            <strong>Satyam Soni</strong>
+            <span>DevEx Engineer at NitroStack</span>
+            <span>Agent AI Foundation Ambassador</span>
+            <span>Speaker at AgentCon and KubeCon</span>
+          </div>
+        </div>
       </div>
     );
   if (index === 1)
@@ -432,7 +441,7 @@ export function SlideContent({ index }: { index: number }) {
           </div>
         </div>
         <p className="footnote">
-          The lab supports local live execution and genuine recorded replay.
+          The lab runs the same travel tools in both modes.
         </p>
       </>
     );
@@ -583,8 +592,8 @@ function ContextSimulator() {
         />
       </div>
       <p className="footnote">
-        Illustrative assumptions: 20,000 conversation tokens + 200 tokens per
-        tool. Dynamic tool toggling can constrain agent autonomy.
+        Assumptions: 20,000 conversation tokens + 200 tokens per tool. Dynamic
+        tool toggling can constrain agent autonomy.
       </p>
       <div className="closing-question">
         Can we reduce context without reducing capabilities?
@@ -792,7 +801,7 @@ function Workflow() {
         <div className="trace">
           <div className="trace-title">
             <span className="dot green" />
-            Execution trace<span>Illustrative</span>
+            Execution trace
           </div>
           {[
             ["searchFlights()", "BLR → SYD · 24 flights", 0],
@@ -933,7 +942,7 @@ function Discovery() {
             </div>
           ) : <ToolGrid count={300} />}
           <div className="catalog-bottom" role="status" aria-live="polite">
-            <span>Enterprise capability catalog · 300 illustrative tools</span>
+            <span>Enterprise capability catalog · 300 tools</span>
             <strong className={searching && results.length ? "green-text" : ""}>
               {searching
                 ? `${results.length} matching ${results.length === 1 ? "capability" : "capabilities"} · 0 schemas loaded`
@@ -954,8 +963,7 @@ function Discovery() {
         </span>
       </div>
       <p className="footnote">
-        Illustrative interface names. Discovery results must respect the
-        caller’s permissions.
+        Discovery results must respect the caller’s permissions.
       </p>
     </>
   );
@@ -969,23 +977,23 @@ function Sandbox() {
       </p>
       <div className="sandbox-layout">
         <div className="sandbox-input">
-          <img src="/claude-logo.svg" alt="" width={40} height={40} />
+          <img src="/javascript-logo.svg" alt="JavaScript" width={44} height={44} />
           <strong>
             AI-generated
             <br />
             JavaScript
           </strong>
-          <code>await tools.call(...)</code>
+          <code>await callTool(name, args)</code>
         </div>
         <Connector tone="purple" />
         <div className="sandbox">
           <div className="sandbox-header">
-            <img src="/execute-logo.svg" alt="" width={32} height={32} />
-            <strong>Isolated sandbox</strong>
+            <img src="/nitrostack-logo.png" alt="NitroStack" width={32} height={32} />
+            <strong>NitroStack sandbox</strong>
             <span>Trust boundary</span>
           </div>
           <div className="audit-line">
-            Enforce limits, check permissions, record tool calls
+            QuickJS · WebAssembly · Scoped tool access
           </div>
         </div>
         <Connector tone={attempt ? "red" : "green"} />
