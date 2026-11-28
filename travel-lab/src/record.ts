@@ -5,7 +5,7 @@ import { redact } from "./redact.js";
 import { runAgent } from "./runner.js";
 import { MAIN_PROMPT } from "./types.js";
 import { saveRecording } from "./agent.js";
-import { expectedOptions } from "./dataset.js";
+import { expectedFareAnalysis } from "./exasol.js";
 config({
   path: fileURLToPath(new URL("../../.env.local", import.meta.url)),
   override: true,
@@ -27,12 +27,26 @@ await writeFile(new URL("last-attempt.json",debugDir),JSON.stringify(redact(trac
 for (const trace of traces) {
   if (trace.status !== "complete") continue;
   const answer = trace.answer as {
-    options?: { id?: string; flightId?: string }[];
+    cheapestMonth?: string;
+    airlines?: { airlineCode?: string; fare?: number; checkedKg?: number }[];
   };
-  const ids = answer?.options?.map((option) => option.id || option.flightId);
-  if (JSON.stringify(ids) !== JSON.stringify(expectedOptions)) {
+  const expected = expectedFareAnalysis();
+  const got = (answer?.airlines || []).map((airline) => [
+    airline.airlineCode,
+    airline.fare,
+    airline.checkedKg,
+  ]);
+  const want = expected.airlines.map((airline) => [
+    airline.airlineCode,
+    airline.fare,
+    airline.checkedKg,
+  ]);
+  if (
+    answer?.cheapestMonth !== expected.cheapestMonth ||
+    JSON.stringify(got) !== JSON.stringify(want)
+  ) {
     throw new Error(
-      `${trace.mode} returned unexpected options: ${JSON.stringify(ids)}. Expected ${expectedOptions.join(", ")}. No verified recording was saved.`,
+      `${trace.mode} returned an unexpected fare analysis: ${JSON.stringify(answer)}. Expected ${expected.cheapestMonth}. No verified recording was saved.`,
     );
   }
 }

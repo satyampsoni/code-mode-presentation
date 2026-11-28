@@ -350,50 +350,109 @@ export function SlideContent({ index }: { index: number }) {
   if (index === 14)
     return (
       <>
-        <div className="comparison-table">
-          <div className="table-row table-head">
-            <span>Dimension</span>
-            <span>
-              <span className="dot amber" /> Tool Calling
-            </span>
-            <span>
-              <span className="dot purple" /> Code Mode
-            </span>
-          </div>
-          {[
-            ["Tool discovery", "Often upfront", "On demand"],
-            ["Context", "Full tool schemas", "Selected schemas"],
-            [
-              "Multi-step workflows",
-              "Repeated model interactions",
-              "Script execution",
-            ],
-            [
-              "Intermediate data",
-              "Often returned to model",
-              "Processed in runtime",
-            ],
-            ["API coverage", "Often curated", "Broader catalogs possible"],
-            ["Orchestration", "Model-driven", "Generated executable logic"],
-          ].map((row, i) => (
-            <Reveal delay={i * 0.23} key={row[0]}>
-              <div className="table-row">
-                {row.map((cell, j) => (
-                  <span key={cell} className={j === 2 ? "purple-text" : ""}>
-                    {cell}
-                  </span>
-                ))}
-              </div>
+        <div className="exasol-layout">
+          <div className="exasol-stack">
+            <Reveal>
+              <Node title="Language model" sub="Reasoning and planning" />
             </Reveal>
-          ))}
+            <Connector vertical />
+            <Reveal delay={0.08}>
+              <Node
+                title="NitroStack MCP Server"
+                sub="search · get_schema · execute"
+                tone="blue"
+                icon="network"
+              />
+            </Reveal>
+            <Connector vertical tone="cyan" />
+            <Reveal delay={0.16}>
+              <Node
+                title="Sandboxed JavaScript"
+                sub="Code Mode writes the workflow"
+                tone="cyan"
+                icon="code"
+              />
+            </Reveal>
+            <Connector vertical tone="cyan" />
+            <Reveal delay={0.24}>
+              <Node
+                title="Exasol MCP"
+                sub="callTool(name, args)"
+                tone="cyan"
+                icon="network"
+              />
+            </Reveal>
+            <Connector vertical tone="cyan" />
+            <div className="exasol-targets">
+              <Reveal>
+                <Node
+                  title="Exasol"
+                  sub="Analytical computation"
+                  tone="cyan"
+                  icon="data"
+                />
+              </Reveal>
+              <Reveal delay={0.12}>
+                <button className="arch-node tone-slate" tabIndex={-1}>
+                  <span className="node-icon">
+                    <Slack size={28} strokeWidth={1.5} />
+                  </span>
+                  <strong>Slack</strong>
+                  <span>Communication · conceptual</span>
+                </button>
+              </Reveal>
+            </div>
+          </div>
+          <div className="exasol-side">
+            <ol className="exasol-steps">
+              {[
+                ["Discover", "Search the catalog and load the selected schema"],
+                ["Generate", "The sandbox writes the SQL workflow"],
+                ["Invoke", "execute sends the query to Exasol"],
+                ["Return", "A compact aggregate comes back to the model"],
+              ].map(([title, detail], i) => (
+                <Reveal delay={i * 0.08} key={title}>
+                  <li>
+                    <span>{i + 1}</span>
+                    <div>
+                      <strong>{title}</strong>
+                      <p>{detail}</p>
+                    </div>
+                  </li>
+                </Reveal>
+              ))}
+            </ol>
+            <Reveal delay={0.24}>
+              <CodeEditor
+                title="analytics.ts"
+                code={
+                  'const history = await exasol.execute(\n  "SELECT month, MIN(fare_inr) FROM fare_history WHERE origin = \'BLR\' AND destination = \'SYD\' GROUP BY 1"\n);\nconst airlines = await exasol.execute(\n  "SELECT airline, checked_kg, MIN(fare_inr) FROM fare_history JOIN baggage_policy USING (airline_code) WHERE checked_kg >= 20 GROUP BY 1, 2"\n);\nreturn { history, airlines };'
+                }
+              />
+            </Reveal>
+            <div className="exasol-roles">
+              <span>
+                <b>LLM</b> reasoning
+              </span>
+              <span>
+                <b>Code Mode</b> orchestration
+              </span>
+              <span>
+                <b>Exasol</b> computation
+              </span>
+            </div>
+          </div>
         </div>
         <p className="footnote">
-          Common architectural patterns; selective discovery is also possible
-          with MCP.
+          Conceptual example.{" "}
+          <a
+            href="https://github.com/exasol/mcp-server"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Exasol MCP server
+          </a>
         </p>
-        <div className="closing-question">
-          Next: configure and run the NitroStack server
-        </div>
       </>
     );
   if (index === 15)

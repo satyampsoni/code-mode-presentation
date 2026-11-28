@@ -17,7 +17,7 @@ export const definitions: {
   {
     name: "search_flights",
     description:
-      "Search sample flights by origin and destination (IATA or city). Returns an object {sampleData, dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights; flight identifier is id. Results are sorted by price ascending and exclude sold-out flights by default; availableOnly:false includes them. Baggage must be looked up separately. Sample data, not live availability.",
+      "Search the Exasol fare warehouse by origin and destination (IATA or city). Current offers are the latest month of fare history. Pass historyMonths (1-12) to aggregate historical fares, return the cheapest month, and compare airlines whose baggage policy includes at least 20 kg. Without historyMonths, returns {dataset, flights: [{id, airline, airlineCode, price, seats, from, to, via, durationMinutes, currency}]}. Use result.flights and flight id. Results are sorted by price ascending and exclude sold-out flights unless availableOnly is false. Baggage for one current offer is a separate lookup.",
     inputSchema: z.object({
       from: z.string().describe("Origin IATA or city, e.g. BLR or Bengaluru"),
       to: z.string().describe("Destination IATA or city, e.g. SYD or Sydney"),
@@ -27,6 +27,13 @@ export const definitions: {
         .optional()
         .describe("Exclusive upper price bound in INR"),
       availableOnly: z.boolean().default(true).describe("Return only flights with seats by default; false includes sold-out fixtures"),
+      historyMonths: z
+        .number()
+        .int()
+        .min(1)
+        .max(12)
+        .optional()
+        .describe("Aggregate this many months of Exasol fare history instead of returning current offers"),
     }),
   },
   {

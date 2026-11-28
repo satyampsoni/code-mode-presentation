@@ -41,4 +41,4 @@ export interface RunTrace {
   error?: string;
 }
 export const MAIN_PROMPT =
-  "Find flights from Bengaluru to Sydney under ₹40,000, check their baggage allowances, and return the three cheapest options with at least 20 kg of checked baggage.";
+  "Analyze historical flight prices over the last 12 months, identify the cheapest month to travel from Bengaluru to Sydney, and compare airlines offering at least 20 kg of baggage.";

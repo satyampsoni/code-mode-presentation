@@ -101,7 +101,7 @@ export const slides = [
     section: "Putting it together",
     duration: 60,
     notes:
-      "These are common architectural tendencies, not protocol limitations. MCP can also support dynamic discovery and selective loading. Code Mode adds generated executable orchestration on top of capabilities. So far, we have discussed Code Mode as an architectural pattern. How difficult is it to actually build?",
+      "Enterprise analytics is the same pattern. The model reasons about the question. Code Mode discovers the Exasol tools, writes the SQL workflow, and calls execute. Exasol does the analytical computation and returns a compact result. This is a conceptual example of the official Exasol MCP server, not a live database connection. Slack is only another possible target. Salesforce is not part of this example.",
   },
   {
     title: "Building Code Mode\nwith NitroStack",

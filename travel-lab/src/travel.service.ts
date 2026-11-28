@@ -1,11 +1,13 @@
 import { Injectable } from "@nitrostack/core";
+import { airportCode, airports } from "./dataset.js";
 import {
-  airports,
-  airportCode,
-  DATASET_VERSION,
-  flightById,
-  flights,
-} from "./dataset.js";
+  AIRLINE_SQL,
+  analyzeFares,
+  LATEST_OFFERS_SQL,
+  OFFER_SQL,
+  queryWarehouse,
+} from "./exasol.js";
+import { DATASET_VERSION } from "./dataset.js";
 export interface Input {
   from?: string;
   to?: string;
@@ -17,61 +19,75 @@ export interface Input {
   referenceId?: string;
   locale?: string;
   availableOnly?: boolean;
+  historyMonths?: number;
 }
 @Injectable()
 export class TravelService {
   async invoke(name: string, input: Input): Promise<unknown> {
-    if (name === "search_flights")
+    if (name === "search_flights") {
+      const origin = airportCode(input.from || "BLR");
+      const destination = airportCode(input.to || "SYD");
+      if (input.historyMonths)
+        return analyzeFares(origin, destination, input.historyMonths);
+      const rows = (await queryWarehouse(LATEST_OFFERS_SQL, [
+        origin,
+        destination,
+        input.maxPrice ?? null,
+        input.maxPrice ?? null,
+        input.availableOnly === false ? 0 : 1,
+      ])) as Offer[];
       return {
         sampleData: true,
         dataset: DATASET_VERSION,
-        flights: flights
-          .filter(
-            (f) =>
-              f.from === airportCode(input.from || "BLR") &&
-              f.to === airportCode(input.to || "SYD") &&
-              (!input.maxPrice || f.price < input.maxPrice) &&
-              (input.availableOnly === false || f.seats > 0),
-          )
-          .sort((a,b)=>a.price-b.price)
-          .map(({ checkedKg, ...f }) => ({...f,available:f.seats>0})),
+        flights: rows.map(({ checkedKg: _checkedKg, ...flight }) => flight),
       };
-    if (name === "get_flight_details") return flightById(input.flightId!);
-    if (name === "compare_fares")
+    }
+    if (name === "get_flight_details") return offerById(input.flightId!);
+    if (name === "compare_fares") {
+      const offers = await Promise.all(input.flightIds!.map(offerById));
       return {
         sampleData: true,
         currency: "INR",
-        flights: input
-          .flightIds!.map(flightById)
+        flights: offers
           .sort((a, b) => a.price - b.price)
-          .map((f) => ({ flightId: f.id, price: f.price, seats: f.seats })),
+          .map((flight) => ({
+            flightId: flight.id,
+            price: flight.price,
+            seats: flight.seats,
+          })),
       };
+    }
     if (name === "get_baggage_policy") {
-      const f = flightById(input.flightId!);
+      const flight = await offerById(input.flightId!);
       return {
         sampleData: true,
-        flightId: f.id,
-        checkedKg: f.checkedKg,
+        flightId: flight.id,
+        checkedKg: flight.checkedKg,
         cabinKg: 7,
         includedInFare: true,
       };
     }
     if (name === "check_availability") {
-      const f = flightById(input.flightId!);
+      const flight = await offerById(input.flightId!);
       return {
         sampleData: true,
-        flightId: f.id,
-        available: f.seats > 0,
-        seats: f.seats,
+        flightId: flight.id,
+        available: flight.seats > 0,
+        seats: flight.seats,
       };
     }
     if (name === "get_airline_details") {
-      const f = flights.find((f) => f.airlineCode === input.airlineCode);
-      if (!f) throw new Error("Unknown sample airline");
+      const code = input.airlineCode?.trim().toUpperCase();
+      const rows = (await queryWarehouse(AIRLINE_SQL, [code])) as {
+        airline: string;
+        airlineCode: string;
+      }[];
+      const airline = rows[0];
+      if (!airline) throw new Error("Unknown sample airline");
       return {
         sampleData: true,
-        code: f.airlineCode,
-        name: f.airline,
+        code: airline.airlineCode,
+        name: airline.airline,
         cabin: "Economy",
         support: "Sample support directory",
       };
@@ -82,31 +98,31 @@ export class TravelService {
       return { sampleData: true, code, ...airports[code] };
     }
     if (name === "get_cancellation_policy") {
-      const f = flightById(input.flightId!);
+      const flight = await offerById(input.flightId!);
       return {
         sampleData: true,
-        flightId: f.id,
+        flightId: flight.id,
         currency: "INR",
         fee: 3500,
         allowedBeforeDepartureHours: 24,
       };
     }
     if (name === "get_refund_policy") {
-      const f = flightById(input.flightId!);
+      const flight = await offerById(input.flightId!);
       return {
         sampleData: true,
-        flightId: f.id,
+        flightId: flight.id,
         refundable: true,
         processingBusinessDays: 7,
         feeINR: 3500,
       };
     }
     if (name === "get_layover_details") {
-      const f = flightById(input.flightId!);
+      const flight = await offerById(input.flightId!);
       return {
         sampleData: true,
-        flightId: f.id,
-        stops: f.via ? [{ airport: f.via, durationMinutes: 120 }] : [],
+        flightId: flight.id,
+        stops: flight.via ? [{ airport: flight.via, durationMinutes: 120 }] : [],
       };
     }
     const [, domain, region, facet] = name.split("__");
@@ -134,4 +150,26 @@ export class TravelService {
       total: 1,
     };
   }
+}
+
+interface Offer {
+  id: string;
+  airline: string;
+  airlineCode: string;
+  price: number;
+  seats: number;
+  from: string;
+  to: string;
+  via: string | null;
+  durationMinutes: number;
+  currency: string;
+  checkedKg: number;
+  available: boolean;
+}
+
+async function offerById(id: string) {
+  const rows = (await queryWarehouse(OFFER_SQL, [id])) as Offer[];
+  const flight = rows[0];
+  if (!flight) throw new Error(`Unknown sample flight: ${id}`);
+  return flight;
 }

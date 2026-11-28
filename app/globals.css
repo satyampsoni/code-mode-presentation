@@ -2571,6 +2571,126 @@ p {
 .slide-canvas[data-slide="13"] .sandbox-outputs .unauthorized.blocked span { color: #dc2626; }
 .slide-canvas[data-slide="13"] .sandbox-outputs .unauthorized.blocked img { opacity: 1; }
 .slide-canvas[data-slide="14"] .table-row > span:nth-child(3) { background: #eff6ff; }
+.slide-canvas[data-slide="14"] .exasol-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 48px;
+  align-items: start;
+}
+.slide-canvas[data-slide="14"] .exasol-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.slide-canvas[data-slide="14"] .exasol-stack > .arch-node,
+.slide-canvas[data-slide="14"] .exasol-stack .reveal,
+.slide-canvas[data-slide="14"] .exasol-stack > div:not(.exasol-targets) {
+  width: 100%;
+}
+.slide-canvas[data-slide="14"] .exasol-stack .arch-node {
+  width: 100%;
+  min-width: 0;
+  min-height: 64px;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 14px;
+  padding: 10px 16px;
+}
+.slide-canvas[data-slide="14"] .exasol-stack .arch-node strong {
+  font-size: 18px;
+}
+.slide-canvas[data-slide="14"] .exasol-stack .arch-node > span:last-child:not(.node-icon) {
+  margin-left: auto;
+  font-size: 13px;
+}
+.slide-canvas[data-slide="14"] .exasol-stack .connector {
+  transform: rotate(90deg);
+  width: 36px;
+  height: 22px;
+  margin: 2px 0;
+}
+.slide-canvas[data-slide="14"] .exasol-targets {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 12px;
+  width: 100%;
+}
+.slide-canvas[data-slide="14"] .exasol-targets .arch-node {
+  min-height: 72px;
+}
+.slide-canvas[data-slide="14"] .exasol-targets .tone-slate {
+  background: #fafafa;
+}
+.slide-canvas[data-slide="14"] .exasol-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 4px;
+}
+.slide-canvas[data-slide="14"] .exasol-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.slide-canvas[data-slide="14"] .exasol-steps li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.slide-canvas[data-slide="14"] .exasol-steps li > span {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f4f4f4;
+  color: #111;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.slide-canvas[data-slide="14"] .exasol-steps strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 550;
+}
+.slide-canvas[data-slide="14"] .exasol-steps p {
+  margin: 1px 0 0;
+  font-size: 13px;
+  color: #525252;
+}
+.slide-canvas[data-slide="14"] .exasol-side .terminal {
+  margin: 0;
+}
+.slide-canvas[data-slide="14"] .exasol-side .code-line {
+  min-height: 22px;
+}
+.slide-canvas[data-slide="14"] .exasol-roles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.slide-canvas[data-slide="14"] .exasol-roles span {
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #525252;
+  background: #fff;
+}
+.slide-canvas[data-slide="14"] .exasol-roles b {
+  display: block;
+  color: #111;
+  font-weight: 550;
+  margin-bottom: 2px;
+}
+.slide-canvas[data-slide="14"] .footnote a {
+  color: #1d4ed8;
+}
 .slide-canvas[data-slide="15"] .arch-node {
   --tone: #111111;
   color: #111111;

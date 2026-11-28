@@ -298,11 +298,12 @@ test("agent loop uses actual tool results, tracks provider usage and supports pa
   }
 });
 
-test('conference result validation rejects sold-out and mismatched sample results',async()=>{
- const {mainResultError}=await import('./validation.js');const {flights}=await import('./dataset.js');const {emptyMetrics}=await import('./runner.js');const {MAIN_PROMPT}=await import('./types.js');
- const trace={version:1 as const,runId:'test-only',mode:'code' as const,prompt:MAIN_PROMPT,catalogSize:10,model:'test-double',dataset:'fixture',recordedAt:new Date().toISOString(),status:'complete' as const,events:[],metrics:emptyMetrics(10),answer:{options:expectedOptions.map(id=>{const f=flights.find(f=>f.id===id)!;return {id:f.id,price:f.price,checkedKg:f.checkedKg}})}};
+test('conference result validation rejects a fare analysis that misses the warehouse result',async()=>{
+ const {mainResultError}=await import('./validation.js');const {emptyMetrics}=await import('./runner.js');const {MAIN_PROMPT}=await import('./types.js');const {expectedFareAnalysis}=await import('./exasol.js');
+ const expected=expectedFareAnalysis();
+ const trace={version:1 as const,runId:'test-only',mode:'code' as const,prompt:MAIN_PROMPT,catalogSize:10,model:'test-double',dataset:'fixture',recordedAt:new Date().toISOString(),status:'complete' as const,events:[],metrics:emptyMetrics(10),answer:{cheapestMonth:expected.cheapestMonth,airlines:expected.airlines}};
  assert.equal(mainResultError(trace),undefined);
- assert.match(mainResultError({...trace,answer:{options:[{id:'NS-106'},{id:'NS-104'},{id:'NS-102'}]}})||'',/validation failed/i);
- assert.match(mainResultError({...trace,answer:{options:trace.answer.options.map(f=>({...f,price:1}))}})||'',/differs/i);
- assert.equal(mainResultError({...trace,prompt:'Show the sample cancellation policy'}),undefined);
+ assert.match(mainResultError({...trace,answer:{cheapestMonth:'2026-11',airlines:expected.airlines}})||'',/validation failed/i);
+ assert.match(mainResultError({...trace,answer:{cheapestMonth:expected.cheapestMonth,airlines:expected.airlines.map(a=>({...a,fare:1}))}})||'',/validation failed/i);
+ assert.equal(mainResultError({...trace,prompt:'Show the cancellation policy'}),undefined);
 });

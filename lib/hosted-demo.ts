@@ -14,6 +14,7 @@ const sourceFiles = [
   "travel-lab/src/app.module.ts",
   "travel-lab/src/travel.tools.ts",
   "travel-lab/src/travel.service.ts",
+  "travel-lab/src/exasol.ts",
   "travel-lab/src/dataset.ts",
   "travel-lab/src/server.ts",
   "travel-lab/src/mcp-client.ts",
