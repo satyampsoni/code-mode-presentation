@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --hostname 127.0.0.1",
+    "dev": "next dev --hostname ::",
     "build": "next build --webpack",
-    "start": "next start --hostname 127.0.0.1",
+    "start": "next start --hostname ::",
     "typecheck": "tsc --noEmit",
     "demo": "npm run build:lab && npm run build && node scripts/dev-demo.mjs",
     "build:lab": "npm run build --workspace @codemode/travel-lab",
